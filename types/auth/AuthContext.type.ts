@@ -1,5 +1,6 @@
 import {AccountType} from '../user/Account.type';
 import {AuthRequestType} from './AuthRequest.type';
+import {RoutePrefixEnum} from '../enumerations/RoutePrefix.enum';
 
 export type AuthContextType = {
     user: AccountType | null;
@@ -9,4 +10,5 @@ export type AuthContextType = {
 
     authenticate: (data: AuthRequestType) => Promise<boolean>;
     logout: () => void;
+    getRoutePrefix: () => RoutePrefixEnum;
 }

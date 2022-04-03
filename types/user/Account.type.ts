@@ -3,20 +3,23 @@ import {AuthorityEnum} from './Authority.type';
 
 export type AccountType = {
 
-    activated?: true;
-    authorities?: AuthorityEnum[];
-    createdBy?: string;
-    createdDate?: Dayjs;
-    email?: string;
-    firstName?: string;
-    id: number;
-    imageUrl?: string;
-    langKey?: string;
-    lastModifiedBy?: string;
-    lastModifiedDate?: Dayjs;
-    lastName?: string;
+    activated?: true
+    authorities?: AuthorityEnum[]
+    createdBy?: string
+    createdDate?: Dayjs
+    email?: string
+    firstName?: string
+    id: number
+    imageUrl?: string
+    langKey?: string
+    lastModifiedBy?: string
+    lastModifiedDate?: Dayjs
+    lastName?: string
     login?: string
-    getHighestAuthority(): AuthorityEnum;
+    getHighestAuthority(): AuthorityEnum
+    isAdmin(): boolean
+    isTeacher(): boolean
+    isStudent(): boolean
 };
 
 export class Account implements AccountType {
@@ -51,15 +54,27 @@ export class Account implements AccountType {
     }
 
     getHighestAuthority(): AuthorityEnum {
-        if (this.authorities.includes(AuthorityEnum.ADMIN)) {
+        if (this.isAdmin()) {
             return AuthorityEnum.ADMIN;
         }
-        if (this.authorities.includes(AuthorityEnum.TEACHER)) {
+        if (this.isTeacher()) {
             return AuthorityEnum.TEACHER;
         }
-        if (this.authorities.includes(AuthorityEnum.USER)) {
+        if (this.isStudent()) {
             return AuthorityEnum.USER;
         }
         return AuthorityEnum.NO_ROLE;
+    }
+
+    isAdmin(): boolean {
+        return this.authorities.includes(AuthorityEnum.ADMIN);
+    }
+
+    isTeacher(): boolean {
+        return this.authorities.includes(AuthorityEnum.TEACHER);
+    }
+
+    isStudent(): boolean {
+        return this.authorities.includes(AuthorityEnum.USER);
     }
 }
