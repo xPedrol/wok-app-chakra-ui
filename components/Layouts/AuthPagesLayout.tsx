@@ -15,8 +15,7 @@ export default function AuthPagesLayout({children, title}: AuthPagesLayout) {
             <Flex
                 minH={'100vh'}
                 align={'center'}
-                justify={'center'}
-                bg={useColorModeValue('gray.50', 'gray.800')} mx={8}>
+                justify={'center'} mx={8}>
                 {children}
             </Flex>
         </>
