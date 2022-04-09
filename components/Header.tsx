@@ -15,15 +15,18 @@ import {
     MenuList,
     Stack,
     Text,
+    useColorMode,
     useColorModeValue,
     useDisclosure,
     VStack,
 } from '@chakra-ui/react';
 import {FiChevronDown,} from 'react-icons/fi';
-import {CloseIcon, HamburgerIcon} from '@chakra-ui/icons';
+import {CloseIcon, HamburgerIcon, Icon} from '@chakra-ui/icons';
 import {useAuthContext} from '../contexts/AuthContext';
-import NextLink from "next/link";
+import NextLink from 'next/link';
 import {useRouter} from 'next/router';
+import {BsMoonFill, BsSun} from 'react-icons/bs';
+
 const Links = [
     {
         title: 'Painel de controle',
@@ -51,6 +54,7 @@ const NavLink = ({children, link}: { children: ReactNode, link: string }) => (
 
 export default function Simple() {
     const {isOpen, onOpen, onClose} = useDisclosure();
+    const { colorMode, toggleColorMode } = useColorMode()
     const imagesUrl = process.env.IMAGES_URL;
     const auth = useAuthContext();
     const router = useRouter();
@@ -60,7 +64,7 @@ export default function Simple() {
     };
     return (
         <>
-            <Box bg={useColorModeValue('gray.100', 'gray.900')} px={{base: 0, lg: '50px'}}>
+            <Box bg={useColorModeValue('white', 'gray.900')} px={{base: 0, lg: '50px'}}>
                 <Container maxW="8xl" px={'50px'}>
                     <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
                         <IconButton
@@ -75,7 +79,7 @@ export default function Simple() {
                             <HStack
                                 as={'nav'}
                                 spacing={4}
-                                display={{base: 'none', md: 'flex'}} fontSize={'13px'} color={'gray.300'}>
+                                display={{base: 'none', md: 'flex'}} fontSize={'13px'} color={useColorModeValue('gray.600','gray.300')}>
                                 {Links.map((link) => (
                                     <NavLink link={link.url} key={link.url}>
                                         {link.title}
@@ -84,6 +88,15 @@ export default function Simple() {
                             </HStack>
                         </HStack>
                         <Flex alignItems={'center'}>
+                            <Button onClick={toggleColorMode} variant={'ghost'}>
+                                {colorMode === 'light' ? (
+                                    // <BsSun size={15} />
+                                    <Icon as={BsSun} fontSize={18} />
+                                ):(
+                                    <Icon as={BsMoonFill} fontSize={18} />
+                                )}
+
+                            </Button>
                             {auth.user?.imageUrl && <>
                                 <Menu>
                                     <MenuButton

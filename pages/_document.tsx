@@ -14,6 +14,7 @@ export default function Document() {
                     rel="stylesheet"/>
             </Head>
             <body>
+            {/*<ColorModeScript initialColorMode={lightTheme.config.initialColorMode} />*/}
             <Main/>
             <NextScript/>
             </body>

@@ -9,12 +9,12 @@ import {getSummary} from '../services/DashboardService';
 import {useMemo} from 'react';
 import {EntityStatusCardType} from '../types/EntityStatusCard.type';
 import {useAuthContext} from '../contexts/AuthContext';
-import protectedRoute from '../components/ProtectedRoute';
 import CourseCard from '../components/CourseCard';
 import {getCourses} from '../services/CourseService';
 import {RoutePrefixEnum} from '../types/enumerations/RoutePrefix.enum';
 import {Course, CourseType} from '../types/Course.type';
 import EntityNotFound from '../components/EntityNotFound';
+import {protectedRoute} from '../HOC/ProtectedRoute';
 
 const courseCard: EntityStatusCardType = {
     title: 'Cursos',
@@ -60,7 +60,8 @@ function Dashboard() {
     let cPublic: CourseType[] | undefined = useMemo(() => {
         if (courses) {
             return courses.filter(course => {
-                return course.isPublic() || (course.isTest() && auth.user.isAdmin());
+            // && auth.user.isAdmin()
+                return course.isPublic() || (course.isTest());
             });
         }
         return undefined;
@@ -77,7 +78,7 @@ function Dashboard() {
     return (
         <DefaultLayout title={'Painel de controle'}>
             <Box>
-                <Heading fontSize={'3xl'}>
+                <Heading fontSize={'3xl'} fontWeight={'800'}>
                     Painel de controle
                 </Heading>
                 <Divider mb={'15px'} mt={'10px'}/>
@@ -101,7 +102,7 @@ function Dashboard() {
                 </SimpleGrid>
             </Box>
             <Box mt={'40px'}>
-                <Heading fontSize={'2xl'} mb={4}>
+                <Heading fontSize={'2xl'} mb={4} >
                     Cursos
                 </Heading>
                 <CoursesGrid isLoadingCourses={isLoadingCourses} courses={cPrivates}/>

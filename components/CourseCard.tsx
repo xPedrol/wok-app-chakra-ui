@@ -17,6 +17,7 @@ import {useAuthContext} from '../contexts/AuthContext';
 import {CourseStatisticsType} from '../types/CourseStatistics.type';
 import {CourseType} from '../types/Course.type';
 import {AiFillWarning} from 'react-icons/ai';
+import NextLink from 'next/link';
 
 type pageProps = {
     course: CourseType
@@ -34,6 +35,8 @@ export default function CourseCard({course}: pageProps) {
         <Box
             w={'full'}
             bg={useColorModeValue('white', 'gray.900')}
+            border={'1px solid'}
+            borderColor={useColorModeValue('gray.300', 'gray.600')}
             rounded={'md'}
             p={6}
             py={4}
@@ -73,9 +76,13 @@ export default function CourseCard({course}: pageProps) {
                 <Button size="sm" colorScheme="blue">
                     Configurações
                 </Button>
-                <Button size="sm" colorScheme="blue">
-                    Classroom
-                </Button>
+                <NextLink href={`/course/${course?.slug}`}>
+                    <a>
+                        <Button size="sm" colorScheme="blue">
+                            Classroom
+                        </Button>
+                    </a>
+                </NextLink>
             </Stack>
         </Box>
     );

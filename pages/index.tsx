@@ -1,4 +1,3 @@
-import type {NextPage} from 'next';
 import {
     Box,
     Button,
@@ -24,15 +23,21 @@ import {useAuthContext} from '../contexts/AuthContext';
 import {useRouter} from 'next/router';
 import {useState} from 'react';
 import {BiHide, BiShowAlt} from 'react-icons/bi';
+import {noAuthRoute} from '../HOC/NoAuthRoute';
 
-const Home: NextPage = () => {
+function Login() {
     const {register, handleSubmit, formState: {errors}} = useForm<AuthRequestType>();
     const auth = useAuthContext();
     const router = useRouter();
     const onSubmit = async (data) => {
+        auth.setIsLoading(true);
         const success = await auth.authenticate(data);
         if (success) {
-            router.push('/dashboard');
+            router.push('/dashboard').then(() => {
+                auth.setIsLoading(false);
+            });
+        } else {
+            auth.setIsLoading(false);
         }
         // authService.authenticate(data).then(res => {
         //     const token = res.data?.id_token;
@@ -58,7 +63,7 @@ const Home: NextPage = () => {
                     <Box mb={{base: 8, lg: 0}}>
                         <VStack alignItems={{base: 'start', lg: 'start'}} justifyContent={{base: 'center'}}>
                             <Image alt={'login_image'} mb={'60px'}
-                                   src="https://mundodocodigo.com.br/wp-content/uploads/2021/05/logo-header-261x44.png"
+                                   src="/logo-header-261x44.png"
                                    w={'261px'}
                                    h={'44px'}/>
                             <Text fontFamily={'heading'} fontSize={{base: '3xl', lg: '4xl'}} fontWeight={800}
@@ -73,20 +78,21 @@ const Home: NextPage = () => {
                          p={{base: 8, sm: 65}}>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <Stack spacing={4}>
-                                <FormControl id="username" isInvalid={!!errors.username}>
+                                <FormControl id="username" isInvalid={!!errors.username} isRequired>
                                     <FormLabel>Name</FormLabel>
-                                    <Input type="text" {...register('username', {required: true})}
+                                    <Input autoComplete={'username'}
+                                           type="text" {...register('username', {required: true})}
                                            placeholder={'Name...'}/>
                                     <FormErrorMessage>Name is required.</FormErrorMessage>
                                 </FormControl>
-                                <FormControl id="password" isInvalid={!!errors.password}>
+                                <FormControl id="password" isInvalid={!!errors.password} isRequired>
                                     <FormLabel>Password</FormLabel>
                                     <InputGroup size="md">
-                                        <Input
-                                            pr="4.5rem"
-                                            {...register('password', {required: true})}
-                                            type={isPasswordField ? 'password' : 'text'}
-                                            placeholder={'Password...'}
+                                        <Input autoComplete={'current-password'}
+                                               pr="4.5rem"
+                                               {...register('password', {required: true})}
+                                               type={isPasswordField ? 'password' : 'text'}
+                                               placeholder={'Password...'}
                                         />
                                         <InputRightElement width="3.5rem">
                                             <Button h="2rem" size="md" variant={'ghost'} onClick={togglePasswordField}>
@@ -115,8 +121,13 @@ const Home: NextPage = () => {
                                         Sign in
                                     </Button>
                                     <Center>
-                                        <Link href={'/signup'}><Text fontSize={'sm'}>Não tem uma conta? <CKLink
-                                            color={'blue.400'}>registre-se</CKLink></Text></Link>
+                                        <Link href={'/signup'} passHref>
+                                            <a>
+                                                <Text fontSize={'sm'}>Não tem uma conta?
+                                                    <CKLink color={'blue.400'}> registre-se</CKLink>
+                                                </Text>
+                                            </a>
+                                        </Link>
                                     </Center>
                                 </Stack>
                             </Stack>
@@ -127,6 +138,6 @@ const Home: NextPage = () => {
             </AuthPagesLayout>
         </>
     );
-};
+}
 
-export default Home;
+export default noAuthRoute(Login);

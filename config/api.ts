@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {getCookie} from '../services/cookieService';
+import {getCookie} from '../services/CookieService';
 
 export const generateApi = (ctx?: any) => {
     const api = axios.create({

@@ -10,5 +10,5 @@ export type AuthContextType = {
 
     authenticate: (data: AuthRequestType) => Promise<boolean>;
     logout: () => void;
-    getRoutePrefix: () => RoutePrefixEnum;
+    getRoutePrefix: (noHasAdmin?:boolean) => RoutePrefixEnum;
 }

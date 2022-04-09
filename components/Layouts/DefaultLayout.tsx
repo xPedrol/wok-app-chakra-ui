@@ -11,7 +11,7 @@ export default function DefaultLayout({children, title}: PageProps) {
     return (
         <>
             <Head>
-                <title>{title}</title>
+                <title>{`WOK - ${title}`}</title>
             </Head>
             <Header/>
             <Container maxW="8xl" mt={'8'}>

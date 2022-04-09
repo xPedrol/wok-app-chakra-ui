@@ -5,6 +5,12 @@ const nextConfig = {
         API_URL: 'https://apiteste.mundodocodigo.com.br/api',
         AUTH_COOKIE_KEY: 'wok-auth',
         IMAGES_URL: 'https://apiteste.mundodocodigo.com.br/storage'
+    },
+    images: {
+        domains: ['apiteste.mundodocodigo.com.br', 'api.mundodocodigo.com.br']
+    },
+    typescript: {
+        ignoreBuildErrors: true
     }
 }
 

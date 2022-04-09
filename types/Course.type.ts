@@ -2,6 +2,7 @@ import {AffiliationBasicType} from './AffiliationBasic.type';
 import {CourseTypeEnum} from './enumerations/CourseType.enum';
 import dayjs, {Dayjs} from 'dayjs';
 import {UserBasicType} from './user/UserBasic.type';
+import {ModuleBasicType} from './basics/ModuleBasicType';
 
 export type CourseType = {
     activated: boolean;
@@ -12,7 +13,7 @@ export type CourseType = {
     endDate: Dayjs
     id: number
     lastModifiedDate: Dayjs
-    modules: any
+    modules: ModuleBasicType[]
     name: string
     passcode: string
     slug: string
@@ -32,7 +33,7 @@ export class Course implements CourseType {
     endDate: Dayjs;
     id: number;
     lastModifiedDate: Dayjs;
-    modules: any;
+    modules: ModuleBasicType[]
     name: string;
     passcode: string;
     slug: string;

@@ -4,7 +4,7 @@ import {AuthContextType} from '../types/auth/AuthContext.type';
 import {AuthRequestType} from '../types/auth/AuthRequest.type';
 import {useBaseToast} from '../hooks/ToastbaseHook';
 import {authenticate as authenticateS} from '../services/AuthService';
-import {removeCookie, setCookie} from '../services/cookieService';
+import {removeCookie, setCookie} from '../services/CookieService';
 import {AuthorityEnum} from '../types/user/Authority.type';
 import {RoutePrefixEnum} from '../types/enumerations/RoutePrefix.enum';
 
@@ -17,7 +17,6 @@ export const AuthProvider = ({children}: any) => {
 
     const authenticate = async (data: AuthRequestType): Promise<boolean> => {
         let success = false;
-        setIsLoading(true);
         try {
             const res = await authenticateS(data);
             const token = res.data?.id_token;
@@ -34,7 +33,6 @@ export const AuthProvider = ({children}: any) => {
                 });
             }
         }
-        setIsLoading(false);
         return success;
     };
 
@@ -43,9 +41,9 @@ export const AuthProvider = ({children}: any) => {
         removeCookie(process.env.AUTH_COOKIE_KEY);
     };
 
-    const getRoutePrefix = (): RoutePrefixEnum => {
+    const getRoutePrefix = (noHasAdmin= false): RoutePrefixEnum => {
         if (user instanceof Account) {
-            if (user.getHighestAuthority() === AuthorityEnum.ADMIN) {
+            if (user.getHighestAuthority() === AuthorityEnum.ADMIN && !noHasAdmin) {
                 return RoutePrefixEnum.ADMIN;
             }
             if (user.getHighestAuthority() === AuthorityEnum.TEACHER) {

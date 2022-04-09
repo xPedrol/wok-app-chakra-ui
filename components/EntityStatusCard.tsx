@@ -24,10 +24,9 @@ function StatsCard(props: EntityStatusCardType) {
         <Stat
             px={{ base: 2, md: 4 }}
             py={'5'}
-            shadow={'xl'}
             border={'1px solid'}
-            bgColor={useColorModeValue('gray.600', 'gray.700')}
-            borderColor={useColorModeValue('gray.800', 'gray.500')}
+            bgColor={useColorModeValue('white', 'gray.700')}
+            borderColor={useColorModeValue('gray.300', 'gray.500')}
             rounded={'lg'}>
             <Flex justifyContent={'space-between'}>
                 <Box pl={{ base: 2, md: 4 }}>

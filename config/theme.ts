@@ -2,6 +2,7 @@
 
 // 1. import `extendTheme` function
 import {extendTheme, type ThemeConfig} from '@chakra-ui/react';
+import {mode} from '@chakra-ui/theme-tools';
 
 const typography = {
     fonts: {
@@ -18,11 +19,20 @@ const lightConfig: ThemeConfig = {
 };
 
 const darkConfig: ThemeConfig = {
-    initialColorMode: 'light',
+    initialColorMode: 'dark',
     useSystemColorMode: true,
 };
-
+const colors = {
+    colors: {},
+    styles: {
+        global: (props) => ({
+            body: {
+                bg: mode('#f7f9fc', 'gray.800')(props)
+            },
+        })
+    }
+};
 // 3. extend the theme
-export const lightTheme = extendTheme({config: lightConfig,...typography});
-export const darkTheme = extendTheme({config: darkConfig});
+export const lightTheme = extendTheme({config: lightConfig, ...typography, ...colors});
+export const darkTheme = extendTheme({config: darkConfig, ...typography, ...colors});
 
