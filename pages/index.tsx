@@ -124,7 +124,7 @@ function Login() {
                                         <Link href={'/signup'} passHref>
                                             <a>
                                                 <Text fontSize={'sm'}>Não tem uma conta?
-                                                    <CKLink color={'blue.400'}> registre-se</CKLink>
+                                                    <CKLink as={'span'} color={'blue.400'}> registre-se</CKLink>
                                                 </Text>
                                             </a>
                                         </Link>

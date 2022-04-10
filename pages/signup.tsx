@@ -86,7 +86,7 @@ function Signup() {
                                 <Link href={'/'} passHref>
                                     <a>
                                         <Text fontSize={'sm'}>Já é um usuário?
-                                            <CKLink color={'blue.400'}> Login</CKLink>
+                                            <CKLink as={'span'} color={'blue.400'}> Login</CKLink>
                                         </Text>
                                     </a>
                                 </Link>

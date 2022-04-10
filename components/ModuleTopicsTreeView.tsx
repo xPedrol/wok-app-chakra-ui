@@ -30,8 +30,8 @@ const ModuleTopicsTreeView = ({moduleTopics, setSelectedModuleTopic, baseCardUrl
                                             <NextLink href={`${baseCardUrl}/topic/${mT?.topic?.slug}`} passHref>
                                                 <a>
                                                     <Box cursor={'pointer'}
-                                                         onMouseOver={() => setSelectedModuleTopic(mT)}
-                                                         onMouseOut={() => setSelectedModuleTopic(undefined)}
+                                                         onMouseEnter={() => setSelectedModuleTopic(mT)}
+                                                         onMouseLeave={() => setSelectedModuleTopic(undefined)}
                                                          className={`${styles.topicCard}`} textAlign={'center'}>
 
                                                         <NextImage className={`${styles.topicImage}`}
