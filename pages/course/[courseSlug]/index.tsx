@@ -32,6 +32,9 @@ import {getUserTanksByCourse} from '../../../services/UserRankService';
 import UserRanksTable from '../../../components/tables/UserRanksTable';
 import Loading from '../../../components/Loading';
 import Scrollbar from "../../../components/styledComponents/Scrollbar";
+import {AuthorityEnum} from "../../../types/user/Authority.type";
+import {getUserResultsMxBuModuleId} from "../../../services/UserResultService";
+import UserResultsMatrix from "../../../components/UserResultsMatrix";
 
 const CoursePage = () => {
 
@@ -54,6 +57,7 @@ const CoursePage = () => {
     }, {
         enabled: !!course
     });
+
 
     return (
         <>
@@ -131,14 +135,16 @@ const CoursePage = () => {
                         )}
                     </GridItem>
                     <GridItem colSpan={{base: 12, lg: 7}}>
-                        <Tabs size={'md'} variant={'enclosed'} defaultIndex={1}>
+                        <Tabs size={'md'} defaultIndex={1}>
                             <TabList>
-                                <Tab>Resultados</Tab>
+                                <Tab isDisabled={auth.user.hasOnlyAuthority([AuthorityEnum.USER])}>Resultados</Tab>
                                 <Tab>Classificação</Tab>
                             </TabList>
                             <TabPanels>
                                 <TabPanel>
-                                    <p>one!</p>
+                                    {course?.modules && course.modules[0] && (
+                                        <UserResultsMatrix moduleId={course.modules[0].id}/>
+                                    )}
                                 </TabPanel>
                                 <TabPanel>
                                     {Array.isArray(userRanks) ? (

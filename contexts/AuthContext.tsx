@@ -7,6 +7,7 @@ import {authenticate as authenticateS} from '../services/AuthService';
 import {removeCookie, setCookie} from '../services/CookieService';
 import {AuthorityEnum} from '../types/user/Authority.type';
 import {RoutePrefixEnum} from '../types/enumerations/RoutePrefix.enum';
+import {useQueryClient} from "react-query";
 
 const AuthContext = createContext({} as AuthContextType);
 
@@ -14,7 +15,7 @@ export const AuthProvider = ({children}: any) => {
     const [user, setUser] = useState<AccountType | undefined>(undefined);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const toast = useBaseToast();
-
+    const queryClient = useQueryClient();
     const authenticate = async (data: AuthRequestType): Promise<boolean> => {
         let success = false;
         try {
@@ -39,9 +40,10 @@ export const AuthProvider = ({children}: any) => {
     const logout = () => {
         setUser(null);
         removeCookie(process.env.AUTH_COOKIE_KEY);
+        queryClient.invalidateQueries();
     };
 
-    const getRoutePrefix = (noHasAdmin= false): RoutePrefixEnum => {
+    const getRoutePrefix = (noHasAdmin = false): RoutePrefixEnum => {
         if (user instanceof Account) {
             if (user.getHighestAuthority() === AuthorityEnum.ADMIN && !noHasAdmin) {
                 return RoutePrefixEnum.ADMIN;

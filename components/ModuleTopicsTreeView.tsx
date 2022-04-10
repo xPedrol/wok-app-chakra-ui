@@ -1,5 +1,5 @@
 import {ModuleTopicType} from '../types/ModuleTopic.type';
-import {Box, Flex, Heading, Tag, Text, useColorModeValue} from '@chakra-ui/react';
+import {Box, Center, Flex, Heading, Tag, Text, useColorModeValue, Wrap, WrapItem} from '@chakra-ui/react';
 import styles from '../styles/ModuleTopicsTreeView.module.scss';
 import NextImage from 'next/image';
 import NextLink from 'next/link'
@@ -24,27 +24,31 @@ const ModuleTopicsTreeView = ({moduleTopics, setSelectedModuleTopic, baseCardUrl
                         <Box className={`${styles.content}`} bg={contentBg}
                              border={'1px solid'}
                              borderColor={contentBorderColor}>
-                            <Flex justifyContent={'space-around'}>
-                                {Array.isArray(mTs) && mTs.map(mT => (
-                                    <NextLink href={`${baseCardUrl}/topic/${mT?.topic?.slug}`} key={mT.id} passHref>
-                                        <a>
-                                            <Box cursor={'pointer'}
-                                                 onMouseOver={() => setSelectedModuleTopic(mT)}
-                                                 onMouseOut={() => setSelectedModuleTopic(undefined)}
-                                                 className={`${styles.topicCard}`} textAlign={'center'}>
+                                <Wrap align='center' justify={'space-around'}>
+                                    {Array.isArray(mTs) && mTs.map(mT => (
+                                        <WrapItem key={mT.id}>
+                                            <NextLink href={`${baseCardUrl}/topic/${mT?.topic?.slug}`} passHref>
+                                                <a>
+                                                    <Box cursor={'pointer'}
+                                                         onMouseOver={() => setSelectedModuleTopic(mT)}
+                                                         onMouseOut={() => setSelectedModuleTopic(undefined)}
+                                                         className={`${styles.topicCard}`} textAlign={'center'}>
 
-                                                <NextImage className={`${styles.topicImage}`} alt={mT?.topic?.name}
-                                                           src={`${process.env.IMAGES_URL}/${mT?.topic?.imageUrl}`}
-                                                           width={40} height={40}/>
-                                                <Text fontSize={'sm'} fontWeight={700}
-                                                      className="mt-3 fw-bold">{mT?.topic?.name}</Text>
-                                                {mT?.availableToDo ? (<Tag colorScheme={'green'}>Aberto</Tag>) : (
-                                                    <Tag colorScheme={'red'}>Fechado</Tag>)}
-                                            </Box>
-                                        </a>
-                                    </NextLink>
-                                ))}
-                            </Flex>
+                                                        <NextImage className={`${styles.topicImage}`}
+                                                                   alt={mT?.topic?.name}
+                                                                   src={`${process.env.IMAGES_URL}/${mT?.topic?.imageUrl}`}
+                                                                   width={40} height={40}/>
+                                                        <Text fontSize={'sm'} fontWeight={700}
+                                                              className="mt-3 fw-bold">{mT?.topic?.name}</Text>
+                                                        {mT?.availableToDo ? (
+                                                            <Tag colorScheme={'green'}>Aberto</Tag>) : (
+                                                            <Tag colorScheme={'red'}>Fechado</Tag>)}
+                                                    </Box>
+                                                </a>
+                                            </NextLink>
+                                        </WrapItem>
+                                    ))}
+                                </Wrap>
                         </Box>
                     </Box>
                 ))}

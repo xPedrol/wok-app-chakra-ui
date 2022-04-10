@@ -15,13 +15,17 @@ import Loading from '../../../../../components/Loading';
 import {useState} from 'react';
 import {DATE_CLASSIC_FORMAT} from '../../../../../dataFormatters/DateFormats';
 import {toModuleTopicsMx} from "../../../../../dataFormatters/ModuleTopicFormatter";
+import EntityNotFound from "../../../../../components/EntityNotFound";
 
 type RouterQueryType = { disciplineSlug: string, courseSlug: string }
 const ModulePage = () => {
     const router = useRouter();
     const auth = useAuthContext();
     const {disciplineSlug, courseSlug} = router.query as RouterQueryType;
-    const {data: moduleTopics}: { data: ModuleTopicType[][] } = useQuery(['moduleTopics[][]', courseSlug, disciplineSlug], () => {
+    const {
+        data: moduleTopics,
+        isLoading: isLoadingMTs
+    }: { data: ModuleTopicType[][], isLoading: boolean } = useQuery(['moduleTopics[][]', courseSlug, disciplineSlug], () => {
         return getModuleTopics(auth.getRoutePrefix(), courseSlug, disciplineSlug).then(res => toModuleTopicsMx(res.data));
     });
     const {data: module}: { data: ModuleBasicType } = useQuery('completeModule', () => {
@@ -35,13 +39,20 @@ const ModulePage = () => {
             <Grid templateColumns={'repeat(12,1fr)'}>
                 <GridItem colSpan={{base: 12, lg: 7}}>
                     <Heading size={'sm'}>Tópicos</Heading>
-                    {Array.isArray(moduleTopics) ? (
-                        <ModuleTopicsTreeView moduleTopics={moduleTopics}
-                                              baseCardUrl={`/course/${courseSlug}/module/${disciplineSlug}`}
-                                              setSelectedModuleTopic={setSelectedModuleTopic}/>
-                    ) : (
+                    {isLoadingMTs ? (
                         <Loading/>
+                    ) : (
+                        <>
+                            {moduleTopics && moduleTopics.length > 0 ? (
+                                <ModuleTopicsTreeView moduleTopics={moduleTopics}
+                                                      baseCardUrl={`/course/${courseSlug}/module/${disciplineSlug}`}
+                                                      setSelectedModuleTopic={setSelectedModuleTopic}/>
+                            ) : (
+                                <EntityNotFound mT={3} textSize={'sm'} iconSize={35} message={'Nenhum tópico foi encontrado'}/>
+                            )}
+                        </>
                     )}
+
                 </GridItem>
                 <GridItem colSpan={{base: 12, lg: 5}}>
                     <Box position={'sticky'} top={3}>

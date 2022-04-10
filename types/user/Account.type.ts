@@ -20,6 +20,10 @@ export type AccountType = {
     isAdmin(): boolean
     isTeacher(): boolean
     isStudent(): boolean
+
+    hasOnlyAuthority(authorities: AuthorityEnum[]): boolean
+
+    notHasAnyAuthority(authorities: AuthorityEnum[]): boolean
 };
 
 export class Account implements AccountType {
@@ -76,5 +80,34 @@ export class Account implements AccountType {
 
     isStudent(): boolean {
         return this.authorities.includes(AuthorityEnum.USER);
+    }
+
+    hasOnlyAuthority(authorities: AuthorityEnum[]): boolean {
+        if (authorities === this.authorities) {
+            return true;
+        }
+        if (authorities && this.authorities) {
+            for (const authority of this.authorities) {
+                if (!authorities.includes(authority)) {
+                    return false;
+                }
+            }
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+    notHasAnyAuthority(authorities: AuthorityEnum[]): boolean {
+        if (authorities && authorities.length > 0) {
+            if (this.authorities && this.authorities?.length > 0) {
+                for (const authority of this.authorities) {
+                    if (authorities.includes(authority)) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 }
