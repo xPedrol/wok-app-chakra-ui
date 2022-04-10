@@ -26,12 +26,13 @@ const ModuleTopicsTreeView = ({moduleTopics, setSelectedModuleTopic, baseCardUrl
                              borderColor={contentBorderColor}>
                             <Flex justifyContent={'space-around'}>
                                 {Array.isArray(mTs) && mTs.map(mT => (
-                                    <Box width={{sm: '100%', md: '50%', lg: '25%'}} cursor={'pointer'}
-                                         onMouseOver={() => setSelectedModuleTopic(mT)}
-                                         onMouseOut={() => setSelectedModuleTopic(undefined)} key={mT.id}
-                                         className={`${styles.topicCard}`} textAlign={'center'}>
-                                        <NextLink href={`${baseCardUrl}/topic/${mT?.topic?.slug}`} passHref>
-                                            <a>
+                                    <NextLink href={`${baseCardUrl}/topic/${mT?.topic?.slug}`} key={mT.id} passHref>
+                                        <a>
+                                            <Box cursor={'pointer'}
+                                                 onMouseOver={() => setSelectedModuleTopic(mT)}
+                                                 onMouseOut={() => setSelectedModuleTopic(undefined)}
+                                                 className={`${styles.topicCard}`} textAlign={'center'}>
+
                                                 <NextImage className={`${styles.topicImage}`} alt={mT?.topic?.name}
                                                            src={`${process.env.IMAGES_URL}/${mT?.topic?.imageUrl}`}
                                                            width={40} height={40}/>
@@ -39,9 +40,9 @@ const ModuleTopicsTreeView = ({moduleTopics, setSelectedModuleTopic, baseCardUrl
                                                       className="mt-3 fw-bold">{mT?.topic?.name}</Text>
                                                 {mT?.availableToDo ? (<Tag colorScheme={'green'}>Aberto</Tag>) : (
                                                     <Tag colorScheme={'red'}>Fechado</Tag>)}
-                                            </a>
-                                        </NextLink>
-                                    </Box>
+                                            </Box>
+                                        </a>
+                                    </NextLink>
                                 ))}
                             </Flex>
                         </Box>

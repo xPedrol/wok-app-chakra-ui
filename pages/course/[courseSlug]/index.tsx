@@ -31,6 +31,7 @@ import NextLink from 'next/link';
 import {getUserTanksByCourse} from '../../../services/UserRankService';
 import UserRanksTable from '../../../components/tables/UserRanksTable';
 import Loading from '../../../components/Loading';
+import Scrollbar from "../../../components/styledComponents/Scrollbar";
 
 const CoursePage = () => {
 
@@ -103,24 +104,26 @@ const CoursePage = () => {
                                         fontFamily={'heading'}>
                                         Módulos
                                     </Heading>
-                                    <List maxH={'65vh'} overflow={'auto'}>
-                                        {course?.modules && course.modules.map((module) => (
-                                            <ListItem key={module.id}>
-                                                <Box py={2} pr={2}>
-                                                    <Flex alignItems={'center'} justifyContent={'space-between'}>
-                                                        <Heading size={'xs'}>{module.alias}</Heading>
-                                                        <NextLink
-                                                            href={`/course/${courseSlug}/module/${module?.discipline?.slug}`}>
-                                                            <a>
-                                                                <Button size={'sm'}>Abrir</Button>
-                                                            </a>
-                                                        </NextLink>
-                                                    </Flex>
-                                                </Box>
-                                                <Divider/>
-                                            </ListItem>
-                                        ))}
-                                    </List>
+                                    <Scrollbar maxH={'65vh'}>
+                                        <List>
+                                            {course?.modules && course.modules.map((module) => (
+                                                <ListItem key={module.id}>
+                                                    <Box py={2} pr={2}>
+                                                        <Flex alignItems={'center'} justifyContent={'space-between'}>
+                                                            <Heading size={'xs'}>{module.alias}</Heading>
+                                                            <NextLink
+                                                                href={`/course/${courseSlug}/module/${module?.discipline?.slug}`}>
+                                                                <a>
+                                                                    <Button size={'sm'}>Abrir</Button>
+                                                                </a>
+                                                            </NextLink>
+                                                        </Flex>
+                                                    </Box>
+                                                    <Divider/>
+                                                </ListItem>
+                                            ))}
+                                        </List>
+                                    </Scrollbar>
                                 </Box>
                             </Box>
                         ) : (

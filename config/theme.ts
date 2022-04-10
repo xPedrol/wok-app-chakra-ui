@@ -3,6 +3,7 @@
 // 1. import `extendTheme` function
 import {extendTheme, type ThemeConfig} from '@chakra-ui/react';
 import {mode} from '@chakra-ui/theme-tools';
+import {ComputedScrollbar} from "../components/styledComponents/ComputedScrollbar";
 
 const typography = {
     fonts: {
@@ -32,6 +33,7 @@ const colors = {
         })
     }
 };
+
 // 3. extend the theme
 export const lightTheme = extendTheme({config: lightConfig, ...typography, ...colors});
 export const darkTheme = extendTheme({config: darkConfig, ...typography, ...colors});

@@ -1,15 +1,17 @@
 import {
-    Avatar,
-    Box, Button, Divider,
+    Box,
+    Button,
+    Divider,
     Flex,
     Grid,
     GridItem,
     Heading,
     List,
-    ListItem, Tag,
-    Text,
-    Tooltip,
-    useColorModeValue, Wrap, WrapItem
+    ListItem,
+    Tag,
+    useColorModeValue,
+    Wrap,
+    WrapItem
 } from "@chakra-ui/react";
 import DefaultLayout from "../../../../../../../components/Layouts/DefaultLayout";
 import {useQuery} from "react-query";
@@ -17,13 +19,13 @@ import {useRouter} from "next/router";
 import {getTopic} from "../../../../../../../services/TopicService";
 import {useAuthContext} from "../../../../../../../contexts/AuthContext";
 import {protectedRoute} from "../../../../../../../HOC/ProtectedRoute";
-import {DATE_CLASSIC_FORMAT} from "../../../../../../../dataFormatters/DateFormats";
 import NextLink from "next/link";
 import CardBox from "../../../../../../../components/chakraCustom/CardBox";
 import Loading from "../../../../../../../components/Loading";
 import {getExerciseBasics} from "../../../../../../../services/ExerciseService";
 import {ExerciseBasicType} from "../../../../../../../types/basics/ExerciseBasic.type";
 import {TopicType} from "../../../../../../../types/Topic.type";
+import Scrollbar from "../../../../../../../components/styledComponents/Scrollbar";
 
 type RouterQuery = {
     courseSlug: string
@@ -106,36 +108,38 @@ type ExerciseBasicsListProps = {
     exercises: ExerciseBasicType[],
     courseSlug: string
     disciplineSlug: string,
-    topicSlug:string
+    topicSlug: string
 }
-const ExerciseBasicsList = ({exercises, courseSlug, disciplineSlug,topicSlug}: ExerciseBasicsListProps) => {
+const ExerciseBasicsList = ({exercises, courseSlug, disciplineSlug, topicSlug}: ExerciseBasicsListProps) => {
     return (
-        <List maxH={'65vh'} overflow={'auto'}>
-            {Array.isArray(exercises) && exercises.map((exercise) => (
-                <ListItem key={exercise.id}>
-                    <Box py={2} pr={2}>
-                        <Flex alignItems={'center'} justifyContent={'space-between'}>
-                            <Heading size={'xs'}>{exercise.name}</Heading>
-                            <Wrap>
-                                <WrapItem alignItems={'center'}>
-                                    <Tag colorScheme={'blue'}>Dificuldade: {exercise.difficultyLevelId}</Tag>
-                                </WrapItem>
-                                <WrapItem alignItems={'center'}>
-                                    <NextLink
-                                        href={`/course/${courseSlug}/module/${disciplineSlug}/topic/${topicSlug}/exercise/${exercise.slug}`}
-                                        passHref>
-                                        <a>
-                                            <Button size={'sm'}>Abrir</Button>
-                                        </a>
-                                    </NextLink>
-                                </WrapItem>
-                            </Wrap>
-                        </Flex>
-                    </Box>
-                    <Divider/>
-                </ListItem>
-            ))}
-        </List>
+        <Scrollbar maxH={'65vh'}>
+            <List>
+                {Array.isArray(exercises) && exercises.map((exercise) => (
+                    <ListItem key={exercise.id}>
+                        <Box py={2} pr={2}>
+                            <Flex alignItems={'center'} justifyContent={'space-between'}>
+                                <Heading size={'xs'}>{exercise.name}</Heading>
+                                <Wrap>
+                                    <WrapItem alignItems={'center'}>
+                                        <Tag colorScheme={'blue'}>Dificuldade: {exercise.difficultyLevelId}</Tag>
+                                    </WrapItem>
+                                    <WrapItem alignItems={'center'}>
+                                        <NextLink
+                                            href={`/course/${courseSlug}/module/${disciplineSlug}/topic/${topicSlug}/exercise/${exercise.slug}`}
+                                            passHref>
+                                            <a>
+                                                <Button size={'sm'}>Abrir</Button>
+                                            </a>
+                                        </NextLink>
+                                    </WrapItem>
+                                </Wrap>
+                            </Flex>
+                        </Box>
+                        <Divider/>
+                    </ListItem>
+                ))}
+            </List>
+        </Scrollbar>
     )
 }
 export default protectedRoute(TopicPage);

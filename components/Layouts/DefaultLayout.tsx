@@ -8,6 +8,7 @@ type PageProps = {
     title?: string;
 }
 export default function DefaultLayout({children, title}: PageProps) {
+    title = title??'';
     return (
         <>
             <Head>

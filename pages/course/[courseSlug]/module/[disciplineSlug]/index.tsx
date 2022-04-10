@@ -5,7 +5,7 @@ import {useQuery} from 'react-query';
 import {useAuthContext} from '../../../../../contexts/AuthContext';
 import {getModuleTopics} from '../../../../../services/ModuleTopicService';
 import {getModule} from '../../../../../services/ModuleService';
-import {Box, Grid, GridItem, Heading, Stack, Tag, Text, Wrap, WrapItem} from '@chakra-ui/react';
+import {Box, Grid, GridItem, Heading, Tag, Text, Wrap, WrapItem} from '@chakra-ui/react';
 import ModuleTopicsTreeView from '../../../../../components/ModuleTopicsTreeView';
 import {ModuleBasicType} from '../../../../../types/basics/ModuleBasicType';
 import {ModuleTopicType} from '../../../../../types/ModuleTopic.type';
@@ -44,53 +44,56 @@ const ModulePage = () => {
                     )}
                 </GridItem>
                 <GridItem colSpan={{base: 12, lg: 5}}>
-                    <Heading size={'sm'}>Descrição do Tópico</Heading>
-                    <Box mt={'40px'} textAlign={'center'}>
-                        {selectedModuleTopic ? (
-                                <Wrap spacing={2}>
-                                    {selectedModuleTopic?.availableToDo && (
+                    <Box position={'sticky'} top={3}>
+                        <Heading size={'sm'}>Descrição do Tópico</Heading>
+                        <Box mt={3} textAlign={'center'}>
+                            {selectedModuleTopic ? (
+                                    <Wrap spacing={2}>
+                                        {selectedModuleTopic?.availableToDo && (
+                                            <WrapItem>
+                                                <Tag>Fecha
+                                                    em {selectedModuleTopic?.endTime.format(DATE_CLASSIC_FORMAT)}</Tag>
+                                            </WrapItem>
+                                        )}
                                         <WrapItem>
-                                            <Tag>Fecha em {selectedModuleTopic?.endTime.format(DATE_CLASSIC_FORMAT)}</Tag>
+                                            <Tag colorScheme='blue'>Pontos necessários {selectedModuleTopic?.minScore}</Tag>
                                         </WrapItem>
-                                    )}
-                                    <WrapItem>
-                                        <Tag colorScheme='blue'>Pontos necessários {selectedModuleTopic?.minScore}</Tag>
-                                    </WrapItem>
-                                    <WrapItem>
-                                        <Tag colorScheme='blue'>Média {selectedModuleTopic?.targetScore}</Tag>
-                                    </WrapItem>
-                                    <WrapItem>
-                                        <Tag colorScheme='blue'>Pontuação máxima {selectedModuleTopic?.maxGrade}</Tag>
-                                    </WrapItem>
-                                    <WrapItem>
-                                        <Tag colorScheme='blue'>Exercícios
-                                            A {selectedModuleTopic?.getTotalExercise('A')}</Tag>
-                                    </WrapItem>
-                                    <WrapItem>
-                                        <Tag colorScheme='blue'>Exercícios
-                                            A {selectedModuleTopic?.getTotalExercise('B')}</Tag>
-                                    </WrapItem>
-                                    <WrapItem>
-                                        <Tag colorScheme='blue'>Exercícios
-                                            A {selectedModuleTopic?.getTotalExercise('C')}</Tag>
-                                    </WrapItem>
-                                    <WrapItem>
-                                        <Tag colorScheme='blue'>Exercícios
-                                            A {selectedModuleTopic?.getTotalExercise('D')}</Tag>
-                                    </WrapItem>
-                                    <WrapItem>
-                                        <Tag colorScheme='blue'>Exercícios
-                                            A {selectedModuleTopic?.getTotalExercise('O')}</Tag>
-                                    </WrapItem>
-                                </Wrap>
-                            )
+                                        <WrapItem>
+                                            <Tag colorScheme='blue'>Média {selectedModuleTopic?.targetScore}</Tag>
+                                        </WrapItem>
+                                        <WrapItem>
+                                            <Tag colorScheme='blue'>Pontuação máxima {selectedModuleTopic?.maxGrade}</Tag>
+                                        </WrapItem>
+                                        <WrapItem>
+                                            <Tag colorScheme='blue'>Exercícios
+                                                A {selectedModuleTopic?.getTotalExercise('A')}</Tag>
+                                        </WrapItem>
+                                        <WrapItem>
+                                            <Tag colorScheme='blue'>Exercícios
+                                                A {selectedModuleTopic?.getTotalExercise('B')}</Tag>
+                                        </WrapItem>
+                                        <WrapItem>
+                                            <Tag colorScheme='blue'>Exercícios
+                                                A {selectedModuleTopic?.getTotalExercise('C')}</Tag>
+                                        </WrapItem>
+                                        <WrapItem>
+                                            <Tag colorScheme='blue'>Exercícios
+                                                A {selectedModuleTopic?.getTotalExercise('D')}</Tag>
+                                        </WrapItem>
+                                        <WrapItem>
+                                            <Tag colorScheme='blue'>Exercícios
+                                                A {selectedModuleTopic?.getTotalExercise('O')}</Tag>
+                                        </WrapItem>
+                                    </Wrap>
+                                )
 
-                            : (
-                                <>
-                                    <Icon fontSize={'30px'} as={BiSearchAlt}/>
-                                    <Text fontWeight={600}>Selecione um tópico</Text>
-                                </>
-                            )}
+                                : (
+                                    <>
+                                        <Icon fontSize={'30px'} as={BiSearchAlt}/>
+                                        <Text fontWeight={600}>Selecione um tópico</Text>
+                                    </>
+                                )}
+                        </Box>
                     </Box>
                 </GridItem>
             </Grid>

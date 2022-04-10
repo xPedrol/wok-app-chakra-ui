@@ -1,6 +1,8 @@
 import {Dayjs} from "dayjs";
 import {ModuleTopicBasicType} from "./basics/ModuleTopicBasic.type";
 import {DifficultyLevelBasicType} from "./basics/DifficultyLevelBasic.type";
+import {ExerciseBasicType} from "./basics/ExerciseBasic.type";
+import {StatementType} from "./Statement.type";
 
 export type ModuleTopicExerciseType = {
     id?: number | null;
@@ -14,7 +16,7 @@ export type ModuleTopicExerciseType = {
     allowSubmit?: boolean | null;
     readonly?: boolean | null;
     moduleTopic?: ModuleTopicBasicType | null;
-    exercise?: any | null;
-    statement?: any | null;
+    exercise?: ExerciseBasicType | null;
+    statement?: StatementType | null;
     difficultyLevel?: DifficultyLevelBasicType | null;
 }

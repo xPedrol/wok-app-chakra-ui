@@ -1,2 +1,2 @@
-export const DATE_CLASSIC_FORMAT = 'dd/MM/yyyy';
-export const DATE_CLASSIC_FORMAT_WITH_HOURS = 'dd/MM/yyyy HH:mm';
+export const DATE_CLASSIC_FORMAT = 'DD/MM/YYYY';
+export const DATE_CLASSIC_FORMAT_WITH_HOURS = 'DD/MM/YYYY HH:mm';

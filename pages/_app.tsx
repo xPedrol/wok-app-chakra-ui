@@ -13,6 +13,7 @@ function MyApp({Component, pageProps}: AppProps) {
         <>
             <Head>
                 <title>Mundo do Código</title>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
             </Head>
             <QueryClientProvider client={queryClient}>
                 <ThemeProvider cookies={pageProps.cookies}>
