@@ -1,7 +1,7 @@
 import {useAuthContext} from "../contexts/AuthContext";
 import {useQuery} from "react-query";
 import {getUserResultsMxBuModuleId} from "../services/UserResultService";
-import {UserResultType} from "../types/user/UserResult.type";
+import {UserPerformanceType} from "../types/user/UserPerformanceType";
 import {
     Avatar,
     Box, Button,
@@ -27,7 +27,7 @@ type PageProps = {
 const UserResultsMatrix = ({moduleId}: PageProps) => {
     const auth = useAuthContext()
     const {data: userResultsMx, isLoading}: {
-        data: UserResultType[][],
+        data: UserPerformanceType[][],
         isLoading: boolean
     } = useQuery(['userResultsMx', moduleId], () => {
         return getUserResultsMxBuModuleId(auth.getRoutePrefix(), moduleId).then(res => res.data);

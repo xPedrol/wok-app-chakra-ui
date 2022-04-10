@@ -5,9 +5,9 @@ import {
     Flex,
     Grid,
     GridItem,
-    Heading,
+    Heading, HStack,
     List,
-    ListItem,
+    ListItem, Stack,
     Tag,
     useColorModeValue,
     Wrap,
@@ -26,6 +26,10 @@ import {getExerciseBasics} from "../../../../../../../services/ExerciseService";
 import {ExerciseBasicType} from "../../../../../../../types/basics/ExerciseBasic.type";
 import {TopicType} from "../../../../../../../types/Topic.type";
 import Scrollbar from "../../../../../../../components/styledComponents/Scrollbar";
+import EntityNotFound from "../../../../../../../components/EntityNotFound";
+import {getExercisePerformanceByAccount} from "../../../../../../../services/UserExercisePerformanceService";
+import {UserExercisePerformanceType} from "../../../../../../../types/user/UserExercisePerformance.type";
+import {AuthorityEnum} from "../../../../../../../types/user/Authority.type";
 
 type RouterQuery = {
     courseSlug: string
@@ -43,11 +47,24 @@ const TopicPage = () => {
         return getTopic(auth.getRoutePrefix(), disciplineSlug, topicSlug).then(res => res.data)
     })
 
-    const {data: exercises}: { data: ExerciseBasicType[] } = useQuery([disciplineSlug, topicSlug, 'exerciseBasics'], () => {
+    const {
+        data: exercises,
+        isLoading: isLoadingExercises
+    }: { data: ExerciseBasicType[], isLoading: boolean } = useQuery([disciplineSlug, topicSlug, 'exerciseBasics'], () => {
         return getExerciseBasics(auth.getRoutePrefix(), disciplineSlug, topicSlug).then(res => res.data)
     }, {
         enabled: auth.user.isTeacher()
     })
+
+    const {
+        data: userExercisePerformances,
+        isLoading: isLoadingUserExercisePerformances
+    }: { data: UserExercisePerformanceType[], isLoading: boolean } = useQuery([courseSlug, disciplineSlug, topicSlug, 'userExercisePerformances'], () => {
+        return getExercisePerformanceByAccount(courseSlug, disciplineSlug, topicSlug).then(res => res.data)
+    }, {
+        enabled: auth.user.hasOnlyAuthority([AuthorityEnum.USER])
+    })
+
     const getTopicHTML = () => {
         return {__html: topic.html};
     }
@@ -56,7 +73,7 @@ const TopicPage = () => {
         <>
             <DefaultLayout title={topic?.name}>
                 <Grid templateColumns={'repeat(12,1fr)'} gap={5}>
-                    <GridItem colSpan={7}>
+                    <GridItem colSpan={{base:12,lg:7}}>
                         <CardBox>
                             <Flex mb={5} justifyContent={'space-between'}>
                                 <Box>
@@ -75,7 +92,7 @@ const TopicPage = () => {
                             )}
                         </CardBox>
                     </GridItem>
-                    <GridItem colSpan={5}>
+                    <GridItem colSpan={{base:12,lg:5}}>
                         <Box position={'sticky'} top={3}>
                             <Flex mb={5} justifyContent={'space-between'}>
                                 <Box>
@@ -87,13 +104,40 @@ const TopicPage = () => {
                                     </Heading>
                                 </Box>
                             </Flex>
-                            {auth.user.isTeacher() && (
+                            {/*auth.user.isTeacher()*/}
+                            {auth.user.isTeacher() ? (
                                 <>
-                                    {Array.isArray(exercises) ? (
-                                        <ExerciseBasicsList exercises={exercises} courseSlug={courseSlug}
-                                                            disciplineSlug={disciplineSlug} topicSlug={topicSlug}/>
-                                    ) : (
+                                    {isLoadingExercises ? (
                                         <Loading/>
+                                    ) : (
+                                        <>
+                                            {exercises && exercises.length > 0 ? (
+                                                <ExerciseBasicsList exercises={exercises} courseSlug={courseSlug}
+                                                                    disciplineSlug={disciplineSlug}
+                                                                    topicSlug={topicSlug}/>
+                                            ) : (
+                                                <EntityNotFound textSize={'sm'} iconSize={35}
+                                                                message={'Nenhum exercício foi encontrado'}/>
+                                            )}
+                                        </>
+                                    )}
+                                </>
+                            ) : (
+                                <>
+                                    {isLoadingUserExercisePerformances ? (
+                                        <Loading/>
+                                    ) : (
+                                        <>
+                                            {userExercisePerformances && userExercisePerformances.length > 0 ? (
+                                                <UserExercisePerformancesList
+                                                    userEPerformances={userExercisePerformances} courseSlug={courseSlug}
+                                                    disciplineSlug={disciplineSlug}
+                                                    topicSlug={topicSlug}/>
+                                            ) : (
+                                                <EntityNotFound textSize={'sm'} iconSize={35}
+                                                                message={'Nenhum exercício foi encontrado'}/>
+                                            )}
+                                        </>
                                     )}
                                 </>
                             )}
@@ -133,6 +177,53 @@ const ExerciseBasicsList = ({exercises, courseSlug, disciplineSlug, topicSlug}: 
                                         </NextLink>
                                     </WrapItem>
                                 </Wrap>
+                            </Flex>
+                        </Box>
+                        <Divider/>
+                    </ListItem>
+                ))}
+            </List>
+        </Scrollbar>
+    )
+}
+type UserExercisePerformancesListProps = {
+    userEPerformances: UserExercisePerformanceType[],
+    courseSlug: string
+    disciplineSlug: string,
+    topicSlug: string
+}
+const UserExercisePerformancesList = ({
+                                          userEPerformances,
+                                          courseSlug,
+                                          disciplineSlug,
+                                          topicSlug
+                                      }: UserExercisePerformancesListProps) => {
+    return (
+        <Scrollbar maxH={'65vh'}>
+            <List overflowX={'auto'} whiteSpace={'nowrap'}>
+                {userEPerformances.map((performance) => (
+                    <ListItem key={performance.idExercise}>
+                        <Box py={2} pr={2}>
+                            <Flex alignItems={'center'} justifyContent={'space-between'} gap={5}>
+                                <Heading size={'xs'}>{performance.nameExercise}</Heading>
+                                <HStack>
+                                    {performance?.idSubmission && (
+                                            <Tag colorScheme={'green'}>Resolvido</Tag>
+                                    )}
+                                    {performance?.nameRunResult && (
+                                            <Tag colorScheme={'blue'}>{performance.nameRunResult}</Tag>
+                                    )}
+                                    {performance?.difficultyLevelId && (
+                                            <Tag colorScheme={'blue'}>Dificuldade {performance.difficultyLevelId}</Tag>
+                                    )}
+                                        <NextLink
+                                            href={`/course/${courseSlug}/module/${disciplineSlug}/topic/${topicSlug}/exercise/${performance.slugExercise}`}
+                                            passHref>
+                                            <a>
+                                                <Button size={'sm'}>Abrir</Button>
+                                            </a>
+                                        </NextLink>
+                                </HStack>
                             </Flex>
                         </Box>
                         <Divider/>

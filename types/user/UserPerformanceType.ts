@@ -1,4 +1,4 @@
-export type UserResultType = {
+export type UserPerformanceType = {
     maxGrade?: number | null;
     minScore?: number | null;
     point?: number | null;

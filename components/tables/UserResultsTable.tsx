@@ -1,10 +1,10 @@
-import {UserResultType} from "../../types/user/UserResult.type";
+import {UserPerformanceType} from "../../types/user/UserPerformanceType";
 import EntityNotFound from "../EntityNotFound";
 import {Table, TableCaption, Tag, Tbody, Td, Text, Th, Thead, Tooltip, Tr, Wrap, WrapItem} from "@chakra-ui/react";
 import {memo} from "react";
 
 type PageProps = {
-    userResults: UserResultType[]
+    userResults: UserPerformanceType[]
 }
 
 const UserResultsTable = ({userResults}: PageProps) => {
