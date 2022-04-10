@@ -7,7 +7,7 @@ import {
     Flex,
     Grid,
     GridItem,
-    Heading,
+    Heading, HStack,
     List,
     ListItem,
     Tag,
@@ -179,39 +179,33 @@ type SubmissionsListProps = {
 }
 const SubmissionsList = ({submissions, courseSlug, disciplineSlug, topicSlug, exerciseSlug}: SubmissionsListProps) => {
     return (
-        <List maxH={'65vh'} overflow={'auto'} className={styles.scrollbar}>
+        <List maxH={'65vh'} overflow={'auto'} whiteSpace={'nowrap'} className={styles.scrollbar}>
             {Array.isArray(submissions) && submissions.map((submission) => (
                 <ListItem key={submission.id}>
                     <Box py={2} pr={2}>
                         <Flex alignItems={'center'} justifyContent={'space-between'}>
                             <VStack align='stretch' spacing={0}>
-                                <Heading size={'xs'}>{submission?.runResult?.id}</Heading>
-                                <Text fontSize={'xs'}>{submission?.cacheResultScoreTopic}</Text>
+                                <Heading size={'xs'}>Resultado: {submission?.runResult?.id}</Heading>
+                                <Text fontSize={'xs'}>Pontuação: {submission?.cacheResultScoreTopic}</Text>
                             </VStack>
-                            <Wrap>
-                                <WrapItem alignItems={'center'}>
-                                    <Tag colorScheme={'blue'}>{submission?.submitTime.format(DATE_CLASSIC_FORMAT)}</Tag>
-                                </WrapItem>
-                                <WrapItem alignItems={'center'}>
-                                    <Tag colorScheme={'blue'}>{submission?.language?.id}</Tag>
-                                </WrapItem>
-                                <WrapItem alignItems={'center'}>
-                                    {submission?.cacheResultScoreTopic ? (
-                                        <Tag colorScheme={'green'}>Julgado</Tag>
-                                    ) : (
-                                        <Tag colorScheme={'orange'}>Não julgado</Tag>
-                                    )}
-                                </WrapItem>
-                                <WrapItem alignItems={'center'}>
-                                    <NextLink
-                                        href={`/course/${courseSlug}/module/${disciplineSlug}/topic/${topicSlug}/exercise/${exerciseSlug}/solution/${submission?.id}`}
-                                        passHref>
-                                        <a>
-                                            <Button size={'sm'}>Abrir</Button>
-                                        </a>
-                                    </NextLink>
-                                </WrapItem>
-                            </Wrap>
+                            <HStack>
+                                {submission.submitTime && (
+                                    <Tag colorScheme={'blue'}>{submission.submitTime.format(DATE_CLASSIC_FORMAT)}</Tag>
+                                )}
+                                <Tag colorScheme={'blue'}>{submission?.language?.id}</Tag>
+                                {submission?.cacheResultScoreTopic ? (
+                                    <Tag colorScheme={'green'}>Julgado</Tag>
+                                ) : (
+                                    <Tag colorScheme={'orange'}>Não julgado</Tag>
+                                )}
+                                <NextLink
+                                    href={`/course/${courseSlug}/module/${disciplineSlug}/topic/${topicSlug}/exercise/${exerciseSlug}/solution/${submission?.id}`}
+                                    passHref>
+                                    <a>
+                                        <Button size={'sm'}>Abrir</Button>
+                                    </a>
+                                </NextLink>
+                            </HStack>
                         </Flex>
                     </Box>
                     <Divider/>
