@@ -15,7 +15,7 @@ export default function DefaultLayout({children, title}: PageProps) {
                 <title>{`WOK - ${title}`}</title>
             </Head>
             <Header/>
-            <Container maxW="8xl" mt={'8'}>
+            <Container maxW="8xl" mt={8} mb={8}>
                 {children}
             </Container>
         </>

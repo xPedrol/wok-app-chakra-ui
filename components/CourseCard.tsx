@@ -22,9 +22,9 @@ import NextLink from 'next/link';
 type pageProps = {
     course: CourseType
 }
-export default function CourseCard({course}: pageProps) {
+const CourseCard =({course}: pageProps) =>{
     const auth = useAuthContext();
-    const {data} = useQuery(`course${course.id}Statistics`, () => {
+    const {data} = useQuery([`courseStatistics`, course.id], () => {
         return getCourseStatistics(auth.getRoutePrefix(), course.id);
     });
     let statistics: CourseStatisticsType | undefined = undefined;
@@ -73,12 +73,12 @@ export default function CourseCard({course}: pageProps) {
                 <Tag variant={'outline'} colorScheme={'blue'}>Módulos: {statistics?.amountExercises ?? 0}</Tag>
             </Stack>
             <Stack mt={6} direction={'row'} spacing={2} align={'center'} justify={'flex-end'}>
-                <Button size="sm" colorScheme="blue">
+                <Button size="sm" colorScheme="blue" variant={'outline'}>
                     Configurações
                 </Button>
                 <NextLink href={`/course/${course?.slug}`}>
                     <a>
-                        <Button size="sm" colorScheme="blue">
+                        <Button size="sm" colorScheme="blue" variant={'outline'}>
                             Classroom
                         </Button>
                     </a>
@@ -87,3 +87,4 @@ export default function CourseCard({course}: pageProps) {
         </Box>
     );
 }
+export default CourseCard

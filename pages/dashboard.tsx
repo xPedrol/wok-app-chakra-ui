@@ -1,12 +1,24 @@
 import DefaultLayout from '../components/Layouts/DefaultLayout';
-import {Box, Center, Divider, Heading, SimpleGrid, Skeleton, Spinner} from '@chakra-ui/react';
+import {
+    Box,
+    Button,
+    Center,
+    Divider,
+    Flex,
+    Heading,
+    SimpleGrid,
+    Skeleton,
+    Spinner, useDisclosure,
+    Wrap,
+    WrapItem
+} from '@chakra-ui/react';
 import EntityStatusCard from '../components/EntityStatusCard';
 import {FiBook} from 'react-icons/fi';
 import {VscFileSubmodule, VscNotebook} from 'react-icons/vsc';
 import {MdOutlineTopic} from 'react-icons/md';
-import {useQuery} from 'react-query';
+import {useQuery, useQueryClient} from 'react-query';
 import {getSummary} from '../services/DashboardService';
-import {useMemo} from 'react';
+import {useMemo, useState} from 'react';
 import {EntityStatusCardType} from '../types/EntityStatusCard.type';
 import {useAuthContext} from '../contexts/AuthContext';
 import CourseCard from '../components/CourseCard';
@@ -15,6 +27,8 @@ import {RoutePrefixEnum} from '../types/enumerations/RoutePrefix.enum';
 import {Course, CourseType} from '../types/Course.type';
 import EntityNotFound from '../components/EntityNotFound';
 import {protectedRoute} from '../HOC/ProtectedRoute';
+import {GoPlus} from "react-icons/go";
+import AddCourseDialog from "../components/Dialogs/AddCourseDialog";
 
 const courseCard: EntityStatusCardType = {
     title: 'Cursos',
@@ -38,12 +52,28 @@ const exerciseCard: EntityStatusCardType = {
 };
 
 function Dashboard() {
+    const {
+        isOpen: isAddCourseDialogOpen,
+        onOpen: onOpenAddCourseDialog,
+        onClose: onCLoseOpenAddCourseDialog
+    } = useDisclosure();
+    const [isPrivateCourse, setIsPrivateCourse] = useState<boolean>(true);
+    const openPrivateAddCourseDialog = () => {
+        setIsPrivateCourse(true)
+        onOpenAddCourseDialog();
+    }
+    const openPublicAddCourseDialog = () => {
+        setIsPrivateCourse(false)
+        onOpenAddCourseDialog();
+    }
     const auth = useAuthContext();
+    const [showAllCourses, setShowAllCourses] = useState<boolean>(false);
     const {data: summary, isLoading} = useQuery('teacherSummary', () => {
         return getSummary(auth.getRoutePrefix()).then(res => res?.data);
     });
-    const {data: courses, isLoading: isLoadingCourses} = useQuery('dashboardCourses', () => {
-        return getCourses(RoutePrefixEnum.ACCOUNT).then(res => {
+    const {data: courses, isLoading: isLoadingCourses} = useQuery(['dashboardCourses', showAllCourses], () => {
+        const prefix = auth.user.isTeacher() ? RoutePrefixEnum.TEACHER : RoutePrefixEnum.ACCOUNT;
+        return getCourses(prefix, showAllCourses).then(res => {
             return res.data.map(course => {
                 return new Course(course);
             });
@@ -60,7 +90,7 @@ function Dashboard() {
     let cPublic: CourseType[] | undefined = useMemo(() => {
         if (courses) {
             return courses.filter(course => {
-            // && auth.user.isAdmin()
+                // && auth.user.isAdmin()
                 return course.isPublic() || (course.isTest());
             });
         }
@@ -75,6 +105,10 @@ function Dashboard() {
             exerciseCard.stat = summary.totalExercises;
         }
     }, [summary]);
+
+    const changeShowAllCourses = () => {
+        setShowAllCourses(!showAllCourses);
+    }
     return (
         <DefaultLayout title={'Painel de controle'}>
             <Box>
@@ -101,8 +135,24 @@ function Dashboard() {
                     </Skeleton>
                 </SimpleGrid>
             </Box>
+            <Flex justifyContent={'flex-end'} alignItems={'center'} mt={3}>
+                <Wrap direction={'row'} spacing={2}>
+                    <WrapItem>
+                        <Button leftIcon={<GoPlus/>} size={'xs'} variant={'outline'} colorScheme={'blue'}
+                                onClick={openPrivateAddCourseDialog}>Curso</Button>
+                    </WrapItem>
+                    <WrapItem>
+                        <Button leftIcon={<GoPlus/>} size={'xs'} variant={'outline'}
+                                colorScheme={'blue'} onClick={openPublicAddCourseDialog}>Treinamento</Button>
+                    </WrapItem>
+                    <WrapItem>
+                        <Button onClick={changeShowAllCourses} size={'xs'} variant={'outline'} colorScheme={'blue'}>Exibir
+                            tudo</Button>
+                    </WrapItem>
+                </Wrap>
+            </Flex>
             <Box mt={'40px'}>
-                <Heading fontSize={'2xl'} mb={4} >
+                <Heading fontSize={'2xl'} mb={4}>
                     Cursos
                 </Heading>
                 <CoursesGrid isLoadingCourses={isLoadingCourses} courses={cPrivates}/>
@@ -114,6 +164,8 @@ function Dashboard() {
                 </Heading>
                 <CoursesGrid isLoadingCourses={isLoadingCourses} courses={cPublic}/>
             </Box>
+            <AddCourseDialog isPrivateCourse={isPrivateCourse} isOpen={isAddCourseDialogOpen}
+                             onClose={onCLoseOpenAddCourseDialog}/>
         </DefaultLayout>
     );
 }
