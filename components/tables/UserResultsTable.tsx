@@ -1,6 +1,20 @@
 import {UserPerformanceType} from "../../types/user/UserPerformanceType";
 import EntityNotFound from "../EntityNotFound";
-import {Table, TableCaption, Tag, Tbody, Td, Text, Th, Thead, Tooltip, Tr, Wrap, WrapItem} from "@chakra-ui/react";
+import {
+    Table,
+    TableCaption,
+    TableContainer,
+    Tag,
+    Tbody,
+    Td,
+    Text,
+    Th,
+    Thead,
+    Tooltip,
+    Tr,
+    Wrap,
+    WrapItem
+} from "@chakra-ui/react";
 import {memo} from "react";
 
 type PageProps = {
@@ -11,7 +25,7 @@ const UserResultsTable = ({userResults}: PageProps) => {
     return (
         <>
             {userResults && userResults.length > 0 ? (
-                <>
+                <TableContainer>
                     <Table>
                         <TableCaption>Lista de desempenho do usuário  <Text as={'span'} color={'blue.300'}>{userResults[0].loginUser}</Text> nos tópicos do módulo selecionado</TableCaption>
                         <Thead>
@@ -67,7 +81,7 @@ const UserResultsTable = ({userResults}: PageProps) => {
                             ))}
                         </Tbody>
                     </Table>
-                </>
+                </TableContainer>
             ) : (
                 <EntityNotFound textSize={'sm'} iconSize={35}
                                 message={'Nenhum resultado de desempenho foi encontrado  para esse usuário'}/>

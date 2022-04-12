@@ -32,8 +32,9 @@ import {getSubmissions} from "../../../../../../../../../services/SubmissionServ
 import {DATE_CLASSIC_FORMAT} from "../../../../../../../../../dataFormatters/DateFormats";
 import {toSubmissions} from "../../../../../../../../../dataFormatters/SubmissionFormatter";
 import {AuthorityEnum} from "../../../../../../../../../types/user/Authority.type";
-import styles from '../../../../../../../../../styles/Scrollbar.module.scss'
+import styles from '../../../../../../../../../styles/Scrollbar.module.scss';
 import Scrollbar from "../../../../../../../../../components/styledComponents/Scrollbar";
+import EntityNotFound from "../../../../../../../../../components/EntityNotFound";
 
 type RouterQuery = {
     courseSlug: string
@@ -47,29 +48,32 @@ const ExercisePage = () => {
     const router = useRouter();
     const {courseSlug, disciplineSlug, topicSlug, exerciseSlug} = router.query as RouterQuery;
     const {data: moduleTopicExercise}: { data: ModuleTopicExerciseType } = useQuery([courseSlug, disciplineSlug, topicSlug, exerciseSlug, 'moduleTopicExercises'], () => {
-        return getModuleTopicExercise(auth.getRoutePrefix(), courseSlug, disciplineSlug, topicSlug, exerciseSlug).then(res => res.data)
+        return getModuleTopicExercise(auth.getRoutePrefix(), courseSlug, disciplineSlug, topicSlug, exerciseSlug).then(res => res.data);
     }, {
         enabled: !!(courseSlug && disciplineSlug && topicSlug && exerciseSlug)
     });
-    const {data: solutions}: { data: SolutionType } = useQuery([exerciseSlug, 'solutions'], () => {
-        return getSolutions(auth.getRoutePrefix(), exerciseSlug).then(res => res.data)
+    const {data: solutions, isLoading: isLoadingSolutions} = useQuery([exerciseSlug, 'solutions'], () => {
+        return getSolutions(auth.getRoutePrefix(), exerciseSlug).then(res => res.data);
     }, {
         enabled: !!exerciseSlug && auth.user.isTeacher()
     });
 
-    const {data: submissions}: { data: SubmissionType[] } = useQuery([courseSlug, disciplineSlug, topicSlug, exerciseSlug, 'submissions'], () => {
-        return getSubmissions(auth.getRoutePrefix(), courseSlug, disciplineSlug, topicSlug, exerciseSlug).then(res => toSubmissions(res.data))
+    const {
+        data: submissions,
+        isLoading: isLoadingSubmissions
+    } = useQuery([courseSlug, disciplineSlug, topicSlug, exerciseSlug, 'submissions'], () => {
+        return getSubmissions(auth.getRoutePrefix(), courseSlug, disciplineSlug, topicSlug, exerciseSlug).then(res => toSubmissions(res.data));
     }, {
         enabled: !!(courseSlug && disciplineSlug && topicSlug && exerciseSlug) && auth.user.getHighestAuthority() === AuthorityEnum.USER
     });
     const getExerciseHTML = () => {
-        return {__html: moduleTopicExercise.statement.html}
-    }
+        return {__html: moduleTopicExercise.statement.html};
+    };
     return (
         <>
             <DefaultLayout title={moduleTopicExercise?.exercise?.name}>
                 <Grid templateColumns={'repeat(12,1fr)'} gap={5}>
-                    <GridItem colSpan={7}>
+                    <GridItem colSpan={{base: 12, lg: 7}}>
                         <CardBox>
                             <Flex mb={5} justifyContent={'space-between'}>
                                 <Box>
@@ -88,7 +92,7 @@ const ExercisePage = () => {
                             )}
                         </CardBox>
                     </GridItem>
-                    <GridItem colSpan={5}>
+                    <GridItem colSpan={{base: 12, lg: 5}}>
                         <Box position={'sticky'} top={3}>
                             <Flex mb={5} justifyContent={'space-between'}>
                                 <Box>
@@ -102,22 +106,34 @@ const ExercisePage = () => {
                             </Flex>
                             {auth.user.isTeacher() ? (
                                 <>
-                                    {Array.isArray(solutions) ? (
-                                        <SolutionsList solutions={solutions} courseSlug={courseSlug}
-                                                       disciplineSlug={disciplineSlug} topicSlug={topicSlug}
-                                                       exerciseSlug={exerciseSlug}/>
-                                    ) : (
+                                    {isLoadingSolutions ? (
                                         <Loading/>
+                                    ) : (
+                                        <>
+                                            {solutions && solutions.length > 0 ? (
+                                                <SolutionsList solutions={solutions} courseSlug={courseSlug}
+                                                               disciplineSlug={disciplineSlug} topicSlug={topicSlug}
+                                                               exerciseSlug={exerciseSlug}/>
+                                            ) : (
+                                                <EntityNotFound textSize={'sm'} iconSize={35}
+                                                                message={'Nenhuma solução foi encontrada'}/>
+                                            )}
+                                        </>
                                     )}
                                 </>
                             ) : (
                                 <>
-                                    {Array.isArray(submissions) ? (
-                                        <SubmissionsList submissions={submissions} courseSlug={courseSlug}
-                                                         disciplineSlug={disciplineSlug} topicSlug={topicSlug}
-                                                         exerciseSlug={exerciseSlug}/>
-                                    ) : (
+                                    {isLoadingSubmissions ? (
                                         <Loading/>
+                                    ) : (
+                                        <>
+                                            {submissions && submissions.length > 0 ? (
+                                                <SubmissionsList submissions={submissions} courseSlug={courseSlug}
+                                                                 disciplineSlug={disciplineSlug} topicSlug={topicSlug}
+                                                                 exerciseSlug={exerciseSlug}/>
+                                            ) : (
+                                                <Loading/>
+                                            )}</>
                                     )}
                                 </>
                             )}
@@ -126,8 +142,8 @@ const ExercisePage = () => {
                 </Grid>
             </DefaultLayout>
         </>
-    )
-}
+    );
+};
 type SolutionsListProps = {
     courseSlug: string
     disciplineSlug: string
@@ -143,7 +159,7 @@ const SolutionsList = ({solutions, courseSlug, disciplineSlug, topicSlug, exerci
                     <ListItem key={solution.id}>
                         <Box py={2} pr={2}>
                             <Flex alignItems={'center'} justifyContent={'space-between'}>
-                                <VStack align='stretch' spacing={0}>
+                                <VStack align="stretch" spacing={0}>
                                     <Heading size={'xs'}>{solution.name}</Heading>
                                     <Text fontSize={'xs'}>{solution?.files?.length ?? 0} Arquivo(s)</Text>
                                 </VStack>
@@ -168,8 +184,8 @@ const SolutionsList = ({solutions, courseSlug, disciplineSlug, topicSlug, exerci
                 ))}
             </List>
         </Scrollbar>
-    )
-}
+    );
+};
 type SubmissionsListProps = {
     courseSlug: string
     disciplineSlug: string
@@ -184,7 +200,7 @@ const SubmissionsList = ({submissions, courseSlug, disciplineSlug, topicSlug, ex
                 <ListItem key={submission.id}>
                     <Box py={2} pr={2}>
                         <Flex alignItems={'center'} justifyContent={'space-between'}>
-                            <VStack align='stretch' spacing={0}>
+                            <VStack align="stretch" spacing={0}>
                                 <Heading size={'xs'}>Resultado: {submission?.runResult?.id}</Heading>
                                 <Text fontSize={'xs'}>Pontuação: {submission?.cacheResultScoreTopic}</Text>
                             </VStack>
@@ -212,6 +228,6 @@ const SubmissionsList = ({submissions, courseSlug, disciplineSlug, topicSlug, ex
                 </ListItem>
             ))}
         </List>
-    )
-}
-export default protectedRoute(ExercisePage)
+    );
+};
+export default protectedRoute(ExercisePage);

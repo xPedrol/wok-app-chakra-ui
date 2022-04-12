@@ -3,9 +3,9 @@ import {generateApi} from "../config/api";
 import {SolutionType} from "../types/Solution.type";
 import {AxiosResponse} from "axios";
 
-export function getSolutions(prefix: RoutePrefixEnum, exerciseSlug: string, ctx: any = null): Promise<AxiosResponse<SolutionType>> {
+export function getSolutions(prefix: RoutePrefixEnum, exerciseSlug: string, ctx: any = null): Promise<AxiosResponse<SolutionType[]>> {
     const url = `${prefix}/exercises/${exerciseSlug}/solutions`;
-    return generateApi(ctx).get<SolutionType>(url);
+    return generateApi(ctx).get<SolutionType[]>(url);
 }
 
 export function getSolution(solutionSlug: string, ctx: any = null): Promise<AxiosResponse<SolutionType>> {

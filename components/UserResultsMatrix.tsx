@@ -50,17 +50,17 @@ const UserResultsMatrix = ({moduleId}: PageProps) => {
                 <Loading/>
             ) : (
                 <>
-                    <Stack align={'start'} direction={'row'} mb={4}>
-                        <FormControl width={{base: '100%', md: '70%', lg: '50%'}}>
-                            <FormLabel htmlFor='students'>Usuários</FormLabel>
-                            <Select id='students' placeholder='Selecione um usuário...'>
-                                {userList && userList.length > 0 && userList.map(user => (
-                                    <option key={user.userId} value={user.userId}>{user.userSlug}</option>
-                                ))}
-                            </Select>
-                        </FormControl>
-                        <Button>Limpar</Button>
-                    </Stack>
+                    {/*<Stack align={'start'} direction={'row'} mb={4}>*/}
+                    {/*    <FormControl width={{base: '100%', md: '70%', lg: '50%'}}>*/}
+                    {/*        <FormLabel htmlFor='students'>Usuários</FormLabel>*/}
+                    {/*        <Select id='students' placeholder='Selecione um usuário...'>*/}
+                    {/*            {userList && userList.length > 0 && userList.map(user => (*/}
+                    {/*                <option key={user.userId} value={user.userId}>{user.userSlug}</option>*/}
+                    {/*            ))}*/}
+                    {/*        </Select>*/}
+                    {/*    </FormControl>*/}
+                    {/*    <Button>Limpar</Button>*/}
+                    {/*</Stack>*/}
                     {userResultsMx && userResultsMx.length > 0 ? (
                         <List>
                             {userResultsMx.map(userResults => (

@@ -35,6 +35,7 @@ import Scrollbar from "../../../components/styledComponents/Scrollbar";
 import {AuthorityEnum} from "../../../types/user/Authority.type";
 import {getUserResultsMxBuModuleId} from "../../../services/UserResultService";
 import UserResultsMatrix from "../../../components/UserResultsMatrix";
+import CardBox from "../../../components/chakraCustom/CardBox";
 
 const CoursePage = () => {
 
@@ -148,16 +149,9 @@ const CoursePage = () => {
                                 </TabPanel>
                                 <TabPanel>
                                     {Array.isArray(userRanks) ? (
-                                        <TableContainer w={'full'}
-                                                        bg={tableContainerBg}
-                                                        border={'1px solid'}
-                                                        borderColor={tableContainerBorderColor}
-                                                        rounded={'md'}
-                                                        p={6}
-                                                        py={4}
-                                                        overflow={'hidden'}>
+                                        <CardBox>
                                             <UserRanksTable userRanks={userRanks}/>
-                                        </TableContainer>
+                                        </CardBox>
                                     ) : (
                                         <Loading/>
                                     )}

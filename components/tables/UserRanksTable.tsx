@@ -1,13 +1,13 @@
 import {UserRankType} from '../../types/user/UserRank.type';
-import {Table, TableCaption, Tbody, Td, Th, Thead, Tr} from '@chakra-ui/react';
+import {Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr} from '@chakra-ui/react';
 
 type pageProps = {
     userRanks: UserRankType[] | undefined
 }
 const UserRanksTable = ({userRanks}: pageProps) => {
     return (
-        <>
-            <Table>
+        <TableContainer>
+            <Table overflowX={'auto'} width={'100%'}>
                 <TableCaption>Rank de pontuação dos alunos do curso</TableCaption>
                 <Thead>
                     <Tr>
@@ -26,7 +26,7 @@ const UserRanksTable = ({userRanks}: pageProps) => {
                     ))}
                 </Tbody>
             </Table>
-        </>
+        </TableContainer>
     );
 };
 export default UserRanksTable;
