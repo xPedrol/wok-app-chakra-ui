@@ -13,7 +13,6 @@ import {
     List,
     ListItem,
     Tab,
-    TableContainer,
     TabList,
     TabPanel,
     TabPanels,
@@ -33,14 +32,11 @@ import UserRanksTable from '../../../components/tables/UserRanksTable';
 import Loading from '../../../components/Loading';
 import Scrollbar from "../../../components/styledComponents/Scrollbar";
 import {AuthorityEnum} from "../../../types/user/Authority.type";
-import {getUserResultsMxBuModuleId} from "../../../services/UserResultService";
 import UserResultsMatrix from "../../../components/UserResultsMatrix";
 import CardBox from "../../../components/chakraCustom/CardBox";
 
 const CoursePage = () => {
 
-    const tableContainerBg = useColorModeValue('white', 'gray.900');
-    const tableContainerBorderColor = useColorModeValue('gray.300', 'gray.600');
     const courseBoxBg = useColorModeValue('white', 'gray.900');
     const courseBoxBorderColor = useColorModeValue('gray.300', 'gray.600');
     const courseHeadingColor = useColorModeValue('gray.700', 'white');

@@ -18,11 +18,12 @@ import {CourseStatisticsType} from '../types/CourseStatistics.type';
 import {CourseType} from '../types/Course.type';
 import {AiFillWarning} from 'react-icons/ai';
 import NextLink from 'next/link';
+import {AuthorityEnum} from "../types/user/Authority.type";
 
 type pageProps = {
     course: CourseType
 }
-const CourseCard =({course}: pageProps) =>{
+const CourseCard = ({course}: pageProps) => {
     const auth = useAuthContext();
     const {data} = useQuery([`courseStatistics`, course.id], () => {
         return getCourseStatistics(auth.getRoutePrefix(), course.id);
@@ -73,18 +74,20 @@ const CourseCard =({course}: pageProps) =>{
                 <Tag variant={'outline'} colorScheme={'blue'}>Módulos: {statistics?.amountExercises ?? 0}</Tag>
             </Stack>
             <Stack mt={6} direction={'row'} spacing={2} align={'center'} justify={'flex-end'}>
-                <Button size="sm" colorScheme="blue" variant={'outline'}>
-                    Configurações
-                </Button>
-                <NextLink href={`/course/${course?.slug}`}>
-                    <a>
-                        <Button size="sm" colorScheme="blue" variant={'outline'}>
-                            Classroom
+                {auth.user.hasAnyAuthority([AuthorityEnum.ADMIN, AuthorityEnum.TEACHER]) && (
+                    <NextLink href={`/manager/course/${course?.slug}`} passHref>
+                        <Button as={'a'} size="sm" colorScheme="blue" variant={'outline'}>
+                            Configurações
                         </Button>
-                    </a>
+                    </NextLink>
+                )}
+                <NextLink href={`/course/${course?.slug}`} passHref>
+                    <Button as={'a'} size="sm" colorScheme="blue" variant={'outline'}>
+                        Classroom
+                    </Button>
                 </NextLink>
             </Stack>
         </Box>
     );
-}
-export default CourseCard
+};
+export default CourseCard;

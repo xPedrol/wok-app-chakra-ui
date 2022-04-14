@@ -24,6 +24,7 @@ export type AccountType = {
     hasOnlyAuthority(authorities: AuthorityEnum[]): boolean
 
     notHasAnyAuthority(authorities: AuthorityEnum[]): boolean
+    hasAnyAuthority(authorities: AuthorityEnum[]): boolean
 };
 
 export class Account implements AccountType {
@@ -106,6 +107,19 @@ export class Account implements AccountType {
                         return false;
                     }
                 }
+            }
+        }
+        return true;
+    }
+
+    hasAnyAuthority(authorities: AuthorityEnum[]): boolean {
+        if (authorities && authorities.length > 0) {
+            if (this.authorities && this.authorities?.length > 0) {
+                return this.authorities.some((authority) => {
+                    return authorities.includes(authority);
+                });
+            } else {
+                return false;
             }
         }
         return true;

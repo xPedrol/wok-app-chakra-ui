@@ -8,7 +8,8 @@ import {
     Heading,
     SimpleGrid,
     Skeleton,
-    Spinner, useDisclosure,
+    Spinner,
+    useDisclosure,
     Wrap,
     WrapItem
 } from '@chakra-ui/react';
@@ -16,7 +17,7 @@ import EntityStatusCard from '../components/EntityStatusCard';
 import {FiBook} from 'react-icons/fi';
 import {VscFileSubmodule, VscNotebook} from 'react-icons/vsc';
 import {MdOutlineTopic} from 'react-icons/md';
-import {useQuery, useQueryClient} from 'react-query';
+import {useQuery} from 'react-query';
 import {getSummary} from '../services/DashboardService';
 import {useMemo, useState} from 'react';
 import {EntityStatusCardType} from '../types/EntityStatusCard.type';
@@ -59,13 +60,13 @@ function Dashboard() {
     } = useDisclosure();
     const [isPrivateCourse, setIsPrivateCourse] = useState<boolean>(true);
     const openPrivateAddCourseDialog = () => {
-        setIsPrivateCourse(true)
+        setIsPrivateCourse(true);
         onOpenAddCourseDialog();
-    }
+    };
     const openPublicAddCourseDialog = () => {
-        setIsPrivateCourse(false)
+        setIsPrivateCourse(false);
         onOpenAddCourseDialog();
-    }
+    };
     const auth = useAuthContext();
     const [showAllCourses, setShowAllCourses] = useState<boolean>(false);
     const {data: summary, isLoading} = useQuery('teacherSummary', () => {
@@ -108,7 +109,7 @@ function Dashboard() {
 
     const changeShowAllCourses = () => {
         setShowAllCourses(!showAllCourses);
-    }
+    };
     return (
         <DefaultLayout title={'Painel de controle'}>
             <Box>
@@ -185,6 +186,7 @@ function CoursesGrid({isLoadingCourses, courses}: CourseGridProps): any {
             ) : (
                 <>
                     {(courses && courses?.length > 0) ? (
+
                         <SimpleGrid columns={{
                             xl: 3,
                             lg: 2,
@@ -192,11 +194,12 @@ function CoursesGrid({isLoadingCourses, courses}: CourseGridProps): any {
                             sm: 1
                         }} gap={4}>
                             {courses.map(course => (
-                                <CourseCard key={course.id} course={course}/>
+                                <Box key={course.id}><CourseCard course={course}/></Box>
                             ))}
                         </SimpleGrid>
+
                     ) : (
-                        <EntityNotFound message={'Nenhum curso privado foi encontrado'}/>
+                        <EntityNotFound textSize={'md'} iconSize={50} message={'Nenhum curso foi encontrado'}/>
                     )}
                 </>
             )}</>

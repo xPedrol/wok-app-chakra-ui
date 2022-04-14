@@ -4,15 +4,18 @@ import {getCookie} from '../services/CookieService';
 import {Account} from '../types/user/Account.type';
 import {useRouter} from 'next/router';
 import {useEffect} from 'react';
+import {AuthorityEnum} from "../types/user/Authority.type";
+import {redirect} from "next/dist/server/api-utils";
 
 // eslint-disable-next-line react/display-name
-export const protectedRoute = (Component: any) => (props) => {
+export const protectedRoute = (Component: any, authorities: AuthorityEnum[] = []) => (props) => {
     const router = useRouter();
     const auth = useAuthContext();
+    const redirect = (url = '/') => {
+        router.push(url);
+    };
     useEffect(() => {
-        const redirect = () => {
-            router.push('/');
-        };
+
         const getAccount = async () => {
             return await getAccountS();
         };
@@ -33,7 +36,11 @@ export const protectedRoute = (Component: any) => (props) => {
     }, []);
 
     if (auth.user instanceof Account) {
-        return <Component {...props}/>;
+        if (auth.user.hasAnyAuthority(authorities)) {
+            return <Component {...props}/>;
+        } else {
+            redirect('/404');
+        }
     } else {
         return <></>;
 

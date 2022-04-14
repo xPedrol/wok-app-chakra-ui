@@ -1,2 +1,3 @@
 export const DATE_CLASSIC_FORMAT = 'DD/MM/YYYY';
 export const DATE_CLASSIC_FORMAT_WITH_HOURS = 'DD/MM/YYYY HH:mm';
+export const DATE_TIME_LOCAL = 'YYYY-MM-DDTHH:mm'

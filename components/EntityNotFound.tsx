@@ -8,8 +8,8 @@ type pageProps = {
     mT?:number | string
 }
 export default function EntityNotFound({message,textSize,iconSize,mT}: pageProps) {
-    textSize = textSize??'md';
-    iconSize = iconSize??50;
+    textSize = textSize??'sm';
+    iconSize = iconSize??35;
     mT = mT??0;
     return (
         <>
