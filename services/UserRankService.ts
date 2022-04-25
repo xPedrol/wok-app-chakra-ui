@@ -6,3 +6,7 @@ import {UserRankType} from '../types/user/UserRank.type';
 export function getUserTanksByCourse(courseId: number, ctx: any = null): Promise<AxiosResponse<UserRankType[]>> {
     return generateApi(ctx).get<UserRankType[]>(`${RoutePrefixEnum.PUBLIC}/courses/${courseId}/users/courseRank`);
 }
+
+export function getUserRanksByModule(prefix: RoutePrefixEnum, moduleId: number, ctx: any = null): Promise<AxiosResponse<UserRankType[]>> {
+    return generateApi(ctx).get<UserRankType[]>(`${prefix}/modules/${moduleId}/users/moduleRank`);
+}

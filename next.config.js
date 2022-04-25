@@ -4,7 +4,7 @@ const nextConfig = {
     env: {
         API_URL: 'https://apiteste.mundodocodigo.com.br/api',
         AUTH_COOKIE_KEY: 'wok-auth',
-        IMAGES_URL: 'https://api.mundodocodigo.com.br/storage'
+        IMAGES_URL: 'https://apiteste.mundodocodigo.com.br/storage'
     },
     images: {
         domains: ['apiteste.mundodocodigo.com.br', 'api.mundodocodigo.com.br']

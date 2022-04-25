@@ -1,4 +1,4 @@
-import AuthPagesLayout from '../components/Layouts/AuthPagesLayout';
+import FlexCenterLayout from '../components/Layouts/FlexCenterLayout';
 import {
     Box,
     Button,
@@ -6,7 +6,6 @@ import {
     FormControl,
     FormLabel,
     Heading,
-    HStack,
     Input,
     InputGroup,
     InputRightElement,
@@ -23,23 +22,24 @@ import {noAuthRoute} from '../HOC/NoAuthRoute';
 function Signup() {
     const [showPassword, setShowPassword] = useState<boolean>(false);
     return (
-        <AuthPagesLayout title={'Cadastro'}>
-            <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
-                <Stack align={'center'}>
-                    <Heading fontSize={'4xl'} textAlign={'center'}>
-                        Registre-se
-                    </Heading>
-                    <Text fontSize={'lg'} color={'gray.600'}>
-                        Para ter acesso aos cursos e disciplinas
-                    </Text>
-                </Stack>
-                <Box w={'100%'} maxW={'480px'}
-                     rounded={'lg'}
+        <FlexCenterLayout title={'Cadastro'}>
+            <Stack alignItems={'center'} direction={'column'} justifyContent={'center'} width={{base:'100%',md:'unset'}}>
+                <Box mb={{base: 4, lg: 0}}>
+                    <Stack align={'center'}>
+                        <Heading fontSize={'4xl'} textAlign={'center'}>
+                            Registre-se
+                        </Heading>
+                        <Text fontSize={'lg'} color={'gray.600'}>
+                            Para ter acesso aos cursos e disciplinas
+                        </Text>
+                    </Stack>
+                </Box>
+                <Box width={'100%'} height={'100%'} maxW={'480px'}
+                     rounded={'md'}
                      bg={useColorModeValue('white', 'gray.700')}
-                     boxShadow={'lg'}
-                     p={8}>
+                     p={{base: 8, sm: 65}}>
                     <Stack spacing={4}>
-                        <HStack>
+                        <Stack direction={{base: 'column', lg: 'row'}}>
                             <Box>
                                 <FormControl id="firstName" isRequired>
                                     <FormLabel>First Name</FormLabel>
@@ -52,7 +52,7 @@ function Signup() {
                                     <Input type="text"/>
                                 </FormControl>
                             </Box>
-                        </HStack>
+                        </Stack>
                         <FormControl id="email" isRequired>
                             <FormLabel>Email address</FormLabel>
                             <Input type="email"/>
@@ -82,19 +82,19 @@ function Signup() {
                                 Sign up
                             </Button>
                         </Stack>
-                            <Center>
-                                <Link href={'/'} passHref>
-                                    <a>
-                                        <Text fontSize={'sm'}>Já é um usuário?
-                                            <CKLink as={'span'} color={'blue.400'}> Login</CKLink>
-                                        </Text>
-                                    </a>
-                                </Link>
-                            </Center>
+                        <Center>
+                            <Link href={'/'} passHref>
+                                <a>
+                                    <Text fontSize={'sm'}>Já é um usuário?
+                                        <CKLink as={'span'} color={'blue.400'}> Login</CKLink>
+                                    </Text>
+                                </a>
+                            </Link>
+                        </Center>
                     </Stack>
                 </Box>
             </Stack>
-        </AuthPagesLayout>
+        </FlexCenterLayout>
     );
 }
 

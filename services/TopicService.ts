@@ -7,5 +7,6 @@ export function getTopic(prefix: RoutePrefixEnum, disciplineSlug: string, topicS
     return generateApi(ctx).get<TopicType>(`/${prefix}/modules/${disciplineSlug}/topics/${topicSlug}/topic`);
 }
 
-
-
+export function getTopicByModuleTopicId(moduleTopicId: string | number, ctx: any = null): Promise<AxiosResponse<TopicType>> {
+    return generateApi(ctx).get<TopicType>(`teacher/modules/topics/${moduleTopicId}/topic`);
+}

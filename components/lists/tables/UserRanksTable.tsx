@@ -1,4 +1,4 @@
-import {UserRankType} from '../../types/user/UserRank.type';
+import {UserRankType} from '../../../types/user/UserRank.type';
 import {Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr} from '@chakra-ui/react';
 
 type pageProps = {
@@ -8,7 +8,7 @@ const UserRanksTable = ({userRanks}: pageProps) => {
     return (
         <TableContainer>
             <Table overflowX={'auto'} width={'100%'}>
-                <TableCaption>Rank de pontuação dos alunos do curso</TableCaption>
+                <TableCaption>Rank de pontuação dos alunos</TableCaption>
                 <Thead>
                     <Tr>
                         <Th>Usuário</Th>

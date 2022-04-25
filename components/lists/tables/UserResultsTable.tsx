@@ -1,5 +1,5 @@
-import {UserPerformanceType} from "../../types/user/UserPerformanceType";
-import EntityNotFound from "../EntityNotFound";
+import {UserPerformanceType} from "../../../types/user/UserPerformanceType";
+import EntityNotFound from "../../feedback/EntityNotFound";
 import {
     Table,
     TableCaption,

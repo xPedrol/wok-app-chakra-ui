@@ -13,7 +13,7 @@ import {
     Wrap,
     WrapItem
 } from '@chakra-ui/react';
-import EntityStatusCard from '../components/EntityStatusCard';
+import EntityStatusCard from '../components/cards/EntityStatusCard';
 import {FiBook} from 'react-icons/fi';
 import {VscFileSubmodule, VscNotebook} from 'react-icons/vsc';
 import {MdOutlineTopic} from 'react-icons/md';
@@ -22,11 +22,11 @@ import {getSummary} from '../services/DashboardService';
 import {useMemo, useState} from 'react';
 import {EntityStatusCardType} from '../types/EntityStatusCard.type';
 import {useAuthContext} from '../contexts/AuthContext';
-import CourseCard from '../components/CourseCard';
+import CourseCard from '../components/cards/CourseCard';
 import {getCourses} from '../services/CourseService';
 import {RoutePrefixEnum} from '../types/enumerations/RoutePrefix.enum';
 import {Course, CourseType} from '../types/Course.type';
-import EntityNotFound from '../components/EntityNotFound';
+import EntityNotFound from '../components/feedback/EntityNotFound';
 import {protectedRoute} from '../HOC/ProtectedRoute';
 import {GoPlus} from "react-icons/go";
 import AddCourseDialog from "../components/Dialogs/AddCourseDialog";

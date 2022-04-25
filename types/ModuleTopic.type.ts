@@ -33,7 +33,8 @@ export type ModuleTopicType = {
     unresolvedResolved: number | null;
 
     getTotalExercise(type: string): number
-    getUnresolvedResolved(results: UserTopicPerformanceType | any): number;
+    numOExercisesCached(): number
+    getUnresolvedResolved(results: UserTopicPerformanceType | any): number
 }
 
 export class ModuleTopic implements ModuleTopicType {
@@ -146,5 +147,17 @@ export class ModuleTopic implements ModuleTopicType {
             // return dayjs(currentDate).isBetween(dayjs(this.startTime), dayjs(this.endTime));
         }
         return false;
+    }
+
+    numOExercisesCached(): number {
+        if (this.exercises) {
+            let total = this.exercises.length;
+            total -= this.numAExercisesCached ?? 0;
+            total -= this.numBExercisesCached ?? 0;
+            total -= this.numCExercisesCached ?? 0;
+            total -= this.numDExercisesCached ?? 0;
+            return total;
+        }
+        return 0;
     }
 }

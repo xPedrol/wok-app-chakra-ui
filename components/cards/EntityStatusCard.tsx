@@ -1,4 +1,4 @@
-import {EntityStatusCardType} from '../types/EntityStatusCard.type';
+import {EntityStatusCardType} from '../../types/EntityStatusCard.type';
 import {Stat, StatLabel, StatNumber} from '@chakra-ui/stat';
 import {Box, Flex, useColorModeValue} from '@chakra-ui/react';
 

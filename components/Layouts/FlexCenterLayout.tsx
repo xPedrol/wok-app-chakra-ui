@@ -2,11 +2,11 @@ import {Flex, useColorModeValue} from '@chakra-ui/react';
 import Head from 'next/head';
 
 type AuthPagesLayout = {
-    children:any;
-    title:string;
+    children: any;
+    title: string;
 }
 
-export default function AuthPagesLayout({children, title}: AuthPagesLayout) {
+export default function FlexCenterLayout({children, title}: AuthPagesLayout) {
     return (
         <>
             <Head>
@@ -15,7 +15,7 @@ export default function AuthPagesLayout({children, title}: AuthPagesLayout) {
             <Flex
                 minH={'100vh'}
                 align={'center'}
-                justify={'center'} mx={8}>
+                justify={'center'} mx={{base: 4, lg: 8}}>
                 {children}
             </Flex>
         </>

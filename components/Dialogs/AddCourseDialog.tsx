@@ -64,7 +64,6 @@ const AddCourseDialog = ({isOpen, onClose, isPrivateCourse}: PageProps) => {
         }
     })
     const onSubmit = (data: Inputs) => {
-        console.log(data)
         mutation.mutate(data)
     }
     return (

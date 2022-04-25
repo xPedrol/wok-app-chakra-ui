@@ -18,7 +18,7 @@ import {
     WrapItem
 } from "@chakra-ui/react";
 import CardBox from "../../../../../../../../../components/chakraCustom/CardBox";
-import Loading from "../../../../../../../../../components/Loading";
+import Loading from "../../../../../../../../../components/feedback/Loading";
 import {ModuleTopicExerciseType} from "../../../../../../../../../types/ModuleTopicExercise.type";
 import {useQuery} from "react-query";
 import {getModuleTopicExercise} from "../../../../../../../../../services/ModuleTopicExerciseService";
@@ -34,7 +34,7 @@ import {toSubmissions} from "../../../../../../../../../dataFormatters/Submissio
 import {AuthorityEnum} from "../../../../../../../../../types/user/Authority.type";
 import styles from '../../../../../../../../../styles/Scrollbar.module.scss';
 import Scrollbar from "../../../../../../../../../components/styledComponents/Scrollbar";
-import EntityNotFound from "../../../../../../../../../components/EntityNotFound";
+import EntityNotFound from "../../../../../../../../../components/feedback/EntityNotFound";
 
 type RouterQuery = {
     courseSlug: string

@@ -1,7 +1,7 @@
-import {useAuthContext} from "../contexts/AuthContext";
+import {useAuthContext} from "../../contexts/AuthContext";
 import {useQuery} from "react-query";
-import {getUserResultsMxBuModuleId} from "../services/UserResultService";
-import {UserPerformanceType} from "../types/user/UserPerformanceType";
+import {getUserResultsMxBuModuleId} from "../../services/UserResultService";
+import {UserPerformanceType} from "../../types/user/UserPerformanceType";
 import {
     Avatar,
     Box, Button,
@@ -15,10 +15,10 @@ import {
     Text,
     VStack
 } from "@chakra-ui/react";
-import Loading from "./Loading";
-import EntityNotFound from "./EntityNotFound";
+import Loading from "../feedback/Loading";
+import EntityNotFound from "../feedback/EntityNotFound";
 import UserResultsTable from "./tables/UserResultsTable";
-import CardBox from "./chakraCustom/CardBox";
+import CardBox from "../chakraCustom/CardBox";
 import {useMemo} from "react";
 
 type PageProps = {

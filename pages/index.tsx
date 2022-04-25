@@ -15,7 +15,7 @@ import {
     useColorModeValue,
     VStack,
 } from '@chakra-ui/react';
-import AuthPagesLayout from '../components/Layouts/AuthPagesLayout';
+import FlexCenterLayout from '../components/Layouts/FlexCenterLayout';
 import {useForm} from 'react-hook-form';
 import Link from 'next/link';
 import {AuthRequestType} from '../types/auth/AuthRequest.type';
@@ -58,8 +58,8 @@ function Login() {
     };
     return (
         <>
-            <AuthPagesLayout title={'Login'}>
-                <Stack alignItems={'center'} direction={{base: 'column', lg: 'row'}} justifyContent={'center'}>
+            <FlexCenterLayout title={'Login'}>
+                <Stack alignItems={'center'} direction={{base: 'column', lg: 'row'}} justifyContent={'center'} width={{base:'100%',md:'unset'}}>
                     <Box mb={{base: 8, lg: 0}}>
                         <VStack alignItems={{base: 'start', lg: 'start'}} justifyContent={{base: 'center'}}>
                             <Image alt={'login_image'} mb={'60px'}
@@ -135,7 +135,7 @@ function Login() {
                     </Box>
                 </Stack>
 
-            </AuthPagesLayout>
+            </FlexCenterLayout>
         </>
     );
 }

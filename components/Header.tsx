@@ -54,13 +54,13 @@ const NavLink = ({children, link}: { children: ReactNode, link: string }) => (
 
 export default function Simple() {
     const {isOpen, onOpen, onClose} = useDisclosure();
-    const { colorMode, toggleColorMode } = useColorMode()
+    const {colorMode, toggleColorMode} = useColorMode();
     const imagesUrl = process.env.IMAGES_URL;
     const auth = useAuthContext();
     const router = useRouter();
-    const logout = () => {
-        auth.logout();
-        router.push('/');
+    const logout = async () => {
+        await auth.logout();
+        await router.push('/');
     };
     return (
         <>
@@ -79,7 +79,8 @@ export default function Simple() {
                             <HStack
                                 as={'nav'}
                                 spacing={4}
-                                display={{base: 'none', md: 'flex'}} fontSize={'13px'} color={useColorModeValue('gray.600','gray.300')}>
+                                display={{base: 'none', md: 'flex'}} fontSize={'13px'}
+                                color={useColorModeValue('gray.600', 'gray.300')}>
                                 {Links.map((link) => (
                                     <NavLink link={link.url} key={link.url}>
                                         {link.title}
@@ -91,9 +92,9 @@ export default function Simple() {
                             <Button onClick={toggleColorMode} variant={'ghost'}>
                                 {colorMode === 'light' ? (
                                     // <BsSun size={15} />
-                                    <Icon as={BsSun} fontSize={18} />
-                                ):(
-                                    <Icon as={BsMoonFill} fontSize={18} />
+                                    <Icon as={BsSun} fontSize={18}/>
+                                ) : (
+                                    <Icon as={BsMoonFill} fontSize={18}/>
                                 )}
 
                             </Button>
@@ -108,7 +109,7 @@ export default function Simple() {
                                         <HStack>
                                             <Avatar
                                                 size={'sm'}
-                                                src={`${imagesUrl}/${auth.user.imageUrl}`}
+                                                src={`${imagesUrl}${auth.user.imageUrl}`}
                                             />
                                             <VStack
                                                 display={{base: 'none', md: 'flex'}}

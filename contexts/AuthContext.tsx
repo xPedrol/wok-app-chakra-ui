@@ -37,10 +37,10 @@ export const AuthProvider = ({children}: any) => {
         return success;
     };
 
-    const logout = () => {
-        setUser(null);
+    const logout = async () => {
+        await queryClient.invalidateQueries();
         removeCookie(process.env.AUTH_COOKIE_KEY);
-        queryClient.invalidateQueries();
+        setUser(undefined);
     };
 
     const getRoutePrefix = (noHasAdmin = false): RoutePrefixEnum => {

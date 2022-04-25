@@ -12,13 +12,13 @@ import {
     useColorModeValue,
 } from '@chakra-ui/react';
 import {useQuery} from 'react-query';
-import {getCourseStatistics} from '../services/CourseService';
-import {useAuthContext} from '../contexts/AuthContext';
-import {CourseStatisticsType} from '../types/CourseStatistics.type';
-import {CourseType} from '../types/Course.type';
+import {getCourseStatistics} from '../../services/CourseService';
+import {useAuthContext} from '../../contexts/AuthContext';
+import {CourseStatisticsType} from '../../types/CourseStatistics.type';
+import {CourseType} from '../../types/Course.type';
 import {AiFillWarning} from 'react-icons/ai';
 import NextLink from 'next/link';
-import {AuthorityEnum} from "../types/user/Authority.type";
+import {AuthorityEnum} from "../../types/user/Authority.type";
 
 type pageProps = {
     course: CourseType

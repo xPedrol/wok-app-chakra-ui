@@ -15,11 +15,14 @@ export function getCookie(name: string, ctx?: any) {
 export function setCookie(name: string, value: any, options?: CookieSerializeOptions) {
     options = options ?? {};
     options.expires = options?.expires ?? dayjs().add(1, 'days').toDate();
-    setNCookies(null, name, value, options);
+    setNCookies(null, name, value, {...cookieBasicOptions, ...options});
 }
 
 export function removeCookie(name: string) {
-    destroyCookie(null, name);
+    destroyCookie(null, name, cookieBasicOptions);
 }
 
 
+const cookieBasicOptions: CookieSerializeOptions = {
+    path: '/'
+};

@@ -3,19 +3,19 @@ import DefaultLayout from '../../../../../components/Layouts/DefaultLayout';
 import {useRouter} from 'next/router';
 import {useQuery} from 'react-query';
 import {useAuthContext} from '../../../../../contexts/AuthContext';
-import {getModuleTopics} from '../../../../../services/ModuleTopicService';
+import {getModuleTopicsMtx} from '../../../../../services/ModuleTopicService';
 import {getModule} from '../../../../../services/ModuleService';
 import {Box, Divider, Grid, GridItem, Heading, Tag, Text, Wrap, WrapItem} from '@chakra-ui/react';
-import ModuleTopicsTreeView from '../../../../../components/ModuleTopicsTreeView';
+import ModuleTopicsTreeView from '../../../../../components/lists/ModuleTopicsTreeView';
 import {ModuleBasicType} from '../../../../../types/basics/ModuleBasicType';
 import {ModuleTopic, ModuleTopicType} from '../../../../../types/ModuleTopic.type';
 import {Icon} from '@chakra-ui/icons';
 import {BiSearchAlt} from 'react-icons/bi';
-import Loading from '../../../../../components/Loading';
+import Loading from '../../../../../components/feedback/Loading';
 import {useState} from 'react';
 import {DATE_CLASSIC_FORMAT} from '../../../../../dataFormatters/DateFormats';
 import {toModuleTopicsMx} from "../../../../../dataFormatters/ModuleTopicFormatter";
-import EntityNotFound from "../../../../../components/EntityNotFound";
+import EntityNotFound from "../../../../../components/feedback/EntityNotFound";
 import {getUserTopicResultsByTopicId} from "../../../../../services/UserTopicResultService";
 import {UserTopicPerformanceType} from "../../../../../types/user/UserTopicPerformance.type";
 import {AuthorityEnum} from "../../../../../types/user/Authority.type";
@@ -31,7 +31,7 @@ const ModulePage = () => {
         data: moduleTopics,
         isLoading: isLoadingMTs
     }: { data: ModuleTopicType[][], isLoading: boolean } = useQuery(['moduleTopics[][]', courseSlug, disciplineSlug], () => {
-        return getModuleTopics(auth.getRoutePrefix(), courseSlug, disciplineSlug).then(res => toModuleTopicsMx(res.data));
+        return getModuleTopicsMtx(auth.getRoutePrefix(), courseSlug, disciplineSlug).then(res => toModuleTopicsMx(res.data));
     });
 
     const {data: module}: { data: ModuleBasicType } = useQuery('completeModule', () => {

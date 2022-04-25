@@ -28,11 +28,12 @@ import {useRouter} from "next/router";
 import {useAuthContext} from "../../../../contexts/AuthContext";
 import {getCourse} from "../../../../services/CourseService";
 import {toCourse} from "../../../../dataFormatters/CourseFormatter";
-import Loading from "../../../../components/Loading";
-import EntityNotFound from "../../../../components/EntityNotFound";
+import Loading from "../../../../components/feedback/Loading";
+import EntityNotFound from "../../../../components/feedback/EntityNotFound";
 import {useForm} from "react-hook-form";
 import {CourseType} from "../../../../types/Course.type";
-import ModuleCard from "../../../../components/ModuleCard";
+import ModuleCard from "../../../../components/cards/ModuleCard";
+import Scrollbar from "../../../../components/styledComponents/Scrollbar";
 
 type RouterQuery = {
     courseSlug: string
@@ -58,9 +59,7 @@ const ManagerCoursePage = () => {
             refetchOnWindowFocus: false
         });
     const {register, handleSubmit, formState: {errors}, setValue} = useForm<Inputs>();
-    console.log(course);
     const onSubmit = (data: Inputs) => {
-        console.log(data);
     };
     const updateFields = (course: CourseType) => {
         setValue('startDate', course.startDate.format(DATE_TIME_LOCAL));
@@ -194,12 +193,23 @@ const ManagerCoursePage = () => {
                     </GridItem>
                     {(course?.modules && course.modules.length > 0) && (
                         <GridItem colSpan={12}>
-
-                            <SimpleGrid columns={{base: 1, md: 2, lg: 3}} gap={5}>
-                                {course.modules.map(module => (
-                                    <Box key={module.id}> <ModuleCard module={module}/></Box>
-                                ))}
-                            </SimpleGrid>
+                            <Flex mb={5} justifyContent={'space-between'}>
+                                <Box>
+                                    <Heading mb={1}
+                                             color={courseHeadingColor}
+                                             fontSize={'md'}
+                                             fontFamily={'heading'}>
+                                        Módulos
+                                    </Heading>
+                                </Box>
+                            </Flex>
+                            <Scrollbar maxH={'45vw'}>
+                                <SimpleGrid columns={{base: 1, md: 2, lg: 3}} gap={5} mr={2}>
+                                    {course.modules.map(module => (
+                                        <Box key={module.id}> <ModuleCard module={module}/></Box>
+                                    ))}
+                                </SimpleGrid>
+                            </Scrollbar>
 
                         </GridItem>
                     )}

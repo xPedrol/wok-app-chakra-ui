@@ -28,11 +28,11 @@ import {toCourse} from '../../../dataFormatters/CourseFormatter';
 import {DATE_CLASSIC_FORMAT} from '../../../dataFormatters/DateFormats';
 import NextLink from 'next/link';
 import {getUserTanksByCourse} from '../../../services/UserRankService';
-import UserRanksTable from '../../../components/tables/UserRanksTable';
-import Loading from '../../../components/Loading';
+import UserRanksTable from '../../../components/lists/tables/UserRanksTable';
+import Loading from '../../../components/feedback/Loading';
 import Scrollbar from "../../../components/styledComponents/Scrollbar";
 import {AuthorityEnum} from "../../../types/user/Authority.type";
-import UserResultsMatrix from "../../../components/UserResultsMatrix";
+import UserResultsMatrix from "../../../components/lists/UserResultsMatrix";
 import CardBox from "../../../components/chakraCustom/CardBox";
 
 const CoursePage = () => {
@@ -92,7 +92,7 @@ const CoursePage = () => {
                                                 <Tooltip label={`Professor do curso: ${course?.teacher?.login}`}
                                                          aria-label="A tooltip">
                                                     <Avatar bgColor={'blue.200'} size="md" name={course?.teacher?.login}
-                                                            src={`${process.env.IMAGES_URL}/${course?.teacher?.imageUrl}`}/>
+                                                            src={`${process.env.IMAGES_URL}${course?.teacher?.imageUrl}`}/>
                                                 </Tooltip>
                                             </a>
                                         </NextLink>

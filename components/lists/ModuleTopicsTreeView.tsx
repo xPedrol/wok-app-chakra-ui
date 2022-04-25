@@ -1,6 +1,6 @@
-import {ModuleTopicType} from '../types/ModuleTopic.type';
+import {ModuleTopicType} from '../../types/ModuleTopic.type';
 import {Box, Center, Flex, Heading, Tag, Text, useColorModeValue, Wrap, WrapItem} from '@chakra-ui/react';
-import styles from '../styles/ModuleTopicsTreeView.module.scss';
+import styles from '../../styles/ModuleTopicsTreeView.module.scss';
 import NextImage from 'next/image';
 import NextLink from 'next/link'
 
@@ -36,7 +36,7 @@ const ModuleTopicsTreeView = ({moduleTopics, setSelectedModuleTopic, baseCardUrl
 
                                                         <NextImage className={`${styles.topicImage}`}
                                                                    alt={mT?.topic?.name}
-                                                                   src={`${process.env.IMAGES_URL}/${mT?.topic?.imageUrl}`}
+                                                                   src={`${process.env.IMAGES_URL}${mT?.topic?.imageUrl}`}
                                                                    width={40} height={40}/>
                                                         <Text fontSize={'sm'} fontWeight={700}
                                                               className="mt-3 fw-bold">{mT?.topic?.name}</Text>

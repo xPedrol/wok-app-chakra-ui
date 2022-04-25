@@ -1,12 +1,15 @@
-import {ModuleBasicType} from "../types/basics/ModuleBasicType";
-import CardBox from "./chakraCustom/CardBox";
+import {ModuleBasicType} from "../../types/basics/ModuleBasicType";
+import CardBox from "../chakraCustom/CardBox";
 import {Avatar, Box, Button, Flex, Heading, HStack, Stack, Text} from "@chakra-ui/react";
 import NextLink from "next/link";
+import {useRouter} from "next/router";
 
 type PageProps = {
     module: ModuleBasicType
 }
 const ModuleCard = ({module}: PageProps) => {
+    const router = useRouter();
+    const {courseSlug} = router.query;
     return (
         <>
             <CardBox>
@@ -25,10 +28,10 @@ const ModuleCard = ({module}: PageProps) => {
                 <Box>
                     <Text>{module.discipline.shortDescription}</Text>
                     <Stack mt={4} direction={'row'} alignItems={'center'} justifyContent={'end'}>
-                        <NextLink href={`module/${module.alias}`} passHref>
+                        <NextLink href={`/manager/course/${courseSlug}/module/${module.discipline.slug}`} passHref>
                             <Button as={'a'} size={'xs'} colorScheme={'blue'}>Configurações</Button>
                         </NextLink>
-                        <NextLink href={`module/${module.alias}`} passHref>
+                        <NextLink href={`/course/${courseSlug}/module/${module.discipline.slug}`} passHref>
                             <Button as={'a'} size={'xs'} colorScheme={'blue'}>Abrir</Button>
                         </NextLink>
                     </Stack>
